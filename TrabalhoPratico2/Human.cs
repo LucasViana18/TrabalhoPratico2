@@ -6,5 +6,12 @@ namespace TrabalhoPratico2
 {
     class Human : Character
     {
+        // Variables/Properties
+
+
+        public override Position VerifyOtherPosition(other)
+        {
+
+        }
     }
 }
