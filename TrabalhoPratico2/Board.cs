@@ -31,14 +31,16 @@ namespace TrabalhoPratico2
 
             currentBoard = new Type[width, height];
 
-            // Ciclos for para percorrer e adicionar por todo o tabuleiro os humanos
-            // e zombies propostos
+            // Ciclos for para percorrer e adicionar por todo o tabuleiro os 
+            // humanos e zombies propostos
 
         }
 
+        /*
         public Type VerifyNeighbors()
         {
             int radius = 1;
         }
+        */
     }
 }
