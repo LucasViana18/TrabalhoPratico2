@@ -11,6 +11,7 @@ namespace TrabalhoPratico2
 
         // Método de Movimento (raio = 1) de corpo vazio, sendo que
         // o zombie e humano herdam o método
+
         public string Move()
         {
             // Verificar a vizinhança de Moore; se todas tiverem characters nas 
@@ -18,12 +19,13 @@ namespace TrabalhoPratico2
 
             // Caso possa executar o movimento, move-se
 
-            // Retorna string do Character movido (tipo de retorno sujeito a alteração)
+            // Retorna string do Character movido (tipo de retorno sujeito a 
+            // alteração)
+            return "Wow";
         }
 
         // Método abstrato de Verificação da posição do humano/zombie mais próximo
-        public abstract Position VerifyOtherPosition(other) // other is placeholder
-        {
+        public abstract Position VerifyOtherPosition(); // other is placeholder
             // Percorrer as 8 posições adjacentes (Moore de raio 1) ao character
             // para verificar se alguma delas contém um character de tipo "contrário",
             // aumentando o raio caso não encontre nenhum com o raio atual
@@ -31,6 +33,5 @@ namespace TrabalhoPratico2
 
             // Caso encontre um character de tipo "contrário", retorna a posição do
             // mesmo (? - tirar dúvida?)
-        }
     }
 }
