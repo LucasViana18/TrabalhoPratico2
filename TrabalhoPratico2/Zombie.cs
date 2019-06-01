@@ -8,9 +8,10 @@ namespace TrabalhoPratico2
     {
         // Variables/Properties
 
-        public override Position VerifyOtherPosition(other)
+        public override Position VerifyOtherPosition()
         {
-
+            Position pos = new Position(2, 2);
+            return pos;
         }
 
         public void TurnHuman()
