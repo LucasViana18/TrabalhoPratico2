@@ -6,19 +6,36 @@ namespace TrabalhoPratico2
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Zombie Game!");
-
             Program Prog = new Program();
             Params p = new Params();
 
             p.ParseArgs(args);
 
-            Console.WriteLine($"X = {p.X}\nY = {p.Y}");
+            Console.WriteLine($"X = {p.x}\nY = {p.y}\nNum of zombies = {p.z}" +
+                $"\nNum of humans = {p.h}\nNum of playable zombies = {p.Z}" +
+                $"\nNum of playable humans = {p.H}\nMax turns = {p.t}");
 
-            p.X += p.Y;
-            p.Y += p.X;
+            Console.ReadLine();
 
-            Console.WriteLine($"X = {p.X}\nY = {p.Y}");
+            p.z++;
+            p.h--;
+            p.Z++;
+            p.H--;
+
+            Console.WriteLine($"X = {p.x}\nY = {p.y}\nNum of zombies = {p.z}" +
+                $"\nNum of humans = {p.h}\nNum of playable zombies = {p.Z}" +
+                $"\nNum of playable humans = {p.H}\nMax turns = {p.t}");
+
+            Console.ReadLine();
+
+            p.z++;
+            p.h--;
+            p.Z++;
+            p.H--;
+
+            Console.WriteLine($"X = {p.x}\nY = {p.y}\nNum of zombies = {p.z}" +
+                $"\nNum of humans = {p.h}\nNum of playable zombies = {p.Z}" +
+                $"\nNum of playable humans = {p.H}\nMax turns = {p.t}");
         }
     }
 }
