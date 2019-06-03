@@ -13,7 +13,7 @@ namespace TrabalhoPratico2
 
 
         // Constructor
-        public Game(Params orgArgs)
+        public Game()
         {
 
         }
@@ -21,7 +21,7 @@ namespace TrabalhoPratico2
         // Loop
         public void Loop()
         {
-            do
+            /*do
             {
                 // Coding
 
@@ -29,6 +29,7 @@ namespace TrabalhoPratico2
                 turns++;
 
             } while (turns < maxTurns || agents == zombies || input != "q")
+            */
         }
 
     }

@@ -4,14 +4,16 @@ using System.Text;
 
 namespace TrabalhoPratico2
 {
-    class Human : Character
+    class Human : Agent
     {
         // Variables/Properties
 
 
-        public override Position VerifyOtherPosition(other)
+        // Constructor
+        public Human(int startX, int startY) : base(startX, startY)
         {
 
         }
+
     }
 }
