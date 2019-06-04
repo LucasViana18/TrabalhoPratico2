@@ -4,11 +4,12 @@ using System.Text;
 
 namespace TrabalhoPratico2
 {
-    public class Zombie : Character
+    public class Zombie : Agent
     {
         // Variables/Properties
 
-        public override Position VerifyOtherPosition()
+        // Constructor
+        public Zombie(int startX, int startY) : base(startX, startY)
         {
             Position pos = new Position(2, 2);
             return pos;
