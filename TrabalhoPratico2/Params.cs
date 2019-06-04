@@ -6,20 +6,23 @@ namespace TrabalhoPratico2
 {
     public struct Params
     {
-        public int x, y, t;
-        public int z, h;
-        public int Z { get; set; }
-        public int H { get; set; }
+        public int MaxTurns { get; private set; }
+        public int BotZ { get; private set; }
+        public int BotH { get; private set; }
+        public int UserZ { get; private set; }
+        public int UserH { get; private set; }
+        public int MaxX { get; private set; }
+        public int MaxY { get; private set; }
 
         public Params(int x, int y, int z, int h, int Z, int H, int t)
         {
-            this.x = x;
-            this.y = y;
-            this.z = z;
-            this.h = h;
-            this.Z = Z;
-            this.H = H;
-            this.t = t;
+            MaxX = x;
+            MaxY = y;
+            BotZ = z;
+            BotH = h;
+            UserZ = Z;
+            UserH = H;
+            MaxTurns = t;
         }
 
         // ParseArgs method takes the array of strings args, which is passed to
@@ -32,38 +35,46 @@ namespace TrabalhoPratico2
         //values taken from the args array.
         public Params ParseArgs(string[] args)
         {
+            if (true) // Debug
+            {
+                MaxX = 8;
+                MaxY = 8;
+                BotZ = 3;
+                BotH = 4;
+            }
+
             for (int i = 0; i < args.Length; i++)
             {
 
                 switch (args[i])
                 {
                     case "-x":
-                        x = int.Parse(args[i + 1]);
+                        MaxX = int.Parse(args[i + 1]);
                         break;
                     case "-y":
-                        y = int.Parse(args[i + 1]);
+                        MaxY = int.Parse(args[i + 1]);
                         break;
                     case "-z":
-                        z = int.Parse(args[i + 1]);
+                        BotZ = int.Parse(args[i + 1]);
                         break;
                     case "-h":
-                        h = int.Parse(args[i + 1]);
+                        BotH = int.Parse(args[i + 1]);
                         break;
                     case "-Z":
-                        Z = int.Parse(args[i + 1]);
+                        UserZ = int.Parse(args[i + 1]);
                         break;
                     case "-H":
-                        H = int.Parse(args[i + 1]);
+                        UserH = int.Parse(args[i + 1]);
                         break;
                     case "-t":
-                        t = int.Parse(args[i + 1]);
+                        MaxTurns = int.Parse(args[i + 1]);
                         break;
                     default:
                         break;
                 }
             }
 
-            return new Params(x, y, z, h, Z, H, t);
+            return new Params(MaxX, MaxY, BotZ, BotH, UserZ, UserH, MaxTurns);
         }
     }
 }
