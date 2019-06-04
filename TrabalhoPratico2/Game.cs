@@ -7,29 +7,39 @@ namespace TrabalhoPratico2
     class Game
     {
         // Variables
-        int turns;
+        private Params gameParams;
+        private Board board;
+
 
         // Class instances
 
 
         // Constructor
-        public Game()
+        public Game(Params par)
         {
+            gameParams = par;
+        }
+
+        private void GameStart()
+        {
+            board = new Board(gameParams);
+            board.StartBoard();
 
         }
 
+
         // Loop
-        public void Loop()
+        public void GameLoop()
         {
-            /*do
+            GameStart();
+            for (int i = 1; i <= gameParams.MaxTurns; i++)
             {
                 // Coding
 
 
-                turns++;
 
-            } while (turns < maxTurns || agents == zombies || input != "q")
-            */
+
+            }
         }
 
     }

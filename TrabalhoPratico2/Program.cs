@@ -8,8 +8,11 @@ namespace TrabalhoPratico2
         {
             Program Prog = new Program();
             Params p = new Params();
+            Game game;
 
             p.ParseArgs(args);
+            game = new Game(p);
+            game.GameLoop();
         }
     }
 }
