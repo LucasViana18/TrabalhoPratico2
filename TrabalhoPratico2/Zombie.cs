@@ -11,7 +11,8 @@ namespace TrabalhoPratico2
         // Constructor
         public Zombie(int startX, int startY) : base(startX, startY)
         {
-
+            Position pos = new Position(2, 2);
+            return pos;
         }
 
         public void TurnHuman()

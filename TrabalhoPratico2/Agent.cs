@@ -17,6 +17,7 @@ namespace TrabalhoPratico2
         }
         // Método de Movimento (raio = 1) de corpo vazio, sendo que
         // o zombie e humano herdam o método
+
         public string Move()
         {
             // Verificar a vizinhança de Moore; se todas tiverem characters nas 
@@ -38,6 +39,5 @@ namespace TrabalhoPratico2
             return CharPosition;
             // Caso encontre um character de tipo "contrário", retorna a posição do
             // mesmo (? - tirar dúvida?)
-        }
     }
 }
