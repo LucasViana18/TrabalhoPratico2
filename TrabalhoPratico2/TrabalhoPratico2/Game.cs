@@ -7,13 +7,12 @@ namespace TrabalhoPratico2
     class Game
     {
         // Variables
+        private int currentTurn;
+
+        // Class instances
         private Params gameParams;
         private Board board;
         private Render render;
-
-
-        // Class instances
-
 
         // Constructor
         public Game(Params par)
@@ -23,26 +22,25 @@ namespace TrabalhoPratico2
             render = new Render();
         }
 
-        private void GameStart()
+        public void GameStart()
         {
             board.StartBoard();
+            GameLoop();
         }
 
 
         // Loop
-        public void GameLoop()
+        private void GameLoop()
         {
-            GameStart();
-            render.Renderer(board, "");
-            for (int i = 1; i <= gameParams.MaxTurns; i++)
+            while (currentTurn >= gameParams.MaxTurns)
             {
+                render.Renderer(board, "");
+                Console.WriteLine(board.GetElementInPosition(3, 3));
+                Console.ReadLine();
                 // Coding
-
-
-
-
+                Console.WriteLine(board.GetElementInPosition(3, 3));
+                Console.ReadLine();
             }
         }
-
     }
 }
