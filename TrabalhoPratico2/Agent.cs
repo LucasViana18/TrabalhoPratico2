@@ -151,13 +151,13 @@ namespace TrabalhoPratico2
             }
         }
 
-        public string Move()
+        public void Move(Agent agent)
         {
-
+            agent.AgentPosition.X++;
+            agent.AgentPosition.Y++;
 
             UpdateNeighR1();
-
-            return "Ola";
+           
         }
 
         public Position VerifyOtherPosition() // other is placeholder
