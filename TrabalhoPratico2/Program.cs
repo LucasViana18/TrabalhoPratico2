@@ -12,7 +12,7 @@ namespace TrabalhoPratico2
 
             p.ParseArgs(args);
             game = new Game(p);
-            game.GameLoop();
+            game.GameStart();
         }
     }
 }
