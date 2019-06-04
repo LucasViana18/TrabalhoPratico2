@@ -8,11 +8,23 @@ namespace TrabalhoPratico2
     {
         // Variables/Properties
 
-
         // Constructor
-        public Human(int startX, int startY) : base(startX, startY)
+        public Human(int startX, int startY, Params par, int lastAgentID) : base(startX, startY, par, lastAgentID)
         {
+            this.elementType = Type.Human;
+        }
 
+        // Methods
+        /*
+        public override Position VerifyOtherPosition()
+        {
+            throw new NotImplementedException();
+        }
+        */
+
+        public override string GetSymbol()
+        {
+            return "h" + AgentID;
         }
 
     }
