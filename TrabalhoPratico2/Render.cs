@@ -31,8 +31,7 @@ namespace TrabalhoPratico2
                     Console.Write(" " + item.GetSymbol() + " ");
                 }
             }
-
-
+            
             Console.ForegroundColor = ConsoleColor.White;
 
             Console.WriteLine("\n_______________");
