@@ -28,11 +28,15 @@ namespace TrabalhoPratico2
                 for (int c = 0; c < board.NumberColumns; c++)
                 {
                     item = board.GetElementInPosition(c, r);
+                    if (item.ElementType == Type.Zombie)
+                    { Console.ForegroundColor = ConsoleColor.DarkRed; }
+                    else if (item.ElementType == Type.Human)
+                    { Console.ForegroundColor = ConsoleColor.Cyan; }
+                    else Console.ForegroundColor = ConsoleColor.White;
                     Console.Write(" " + item.GetSymbol() + " ");
                 }
             }
-
-
+            
             Console.ForegroundColor = ConsoleColor.White;
 
             Console.WriteLine("\n_______________");
