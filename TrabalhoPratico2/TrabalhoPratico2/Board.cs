@@ -9,8 +9,8 @@ namespace TrabalhoPratico2
         // Variables and Properties
         private Params boardParams;
         private GameElement[,] currentBoard;
-        private List<Zombie> zombies;
-        private List<Human> humans;
+        internal  List<Zombie> zombies;
+        internal List<Human> humans;
         private Random rnd;
 
         public int NumberColumns { get; private set; } = 0;
