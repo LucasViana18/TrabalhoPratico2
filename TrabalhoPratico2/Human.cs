@@ -14,39 +14,29 @@ namespace TrabalhoPratico2
             this.elementType = Type.Human;
         }
 
-        public void AI(Board board)
+        public override void PathFinding(Board board)
         {
-            foreach (Position moorePos in neighR1)
-            {
-                foreach (Zombie zombies in board.zombies)
-                {
-                    if (moorePos != zombies.AgentPosition)
-                    {
-                        possibleMoves.Add(moorePos);
-                    }
-                }
-
-                foreach (Human human in board.humans)
-                {
-                    if (moorePos != human.AgentPosition)
-                    {
-                        possibleMoves.Add(moorePos);
-                    }
-                }
-            }
+            base.PathFinding(board);
 
             foreach (Position moorePos in possibleMoves)
             {
+                bool validPos = true;
                 UpdateNeighR1(moorePos);
+
                 foreach (Position flowerPos in neighR1)
                 {
-                    foreach (Zombie zombies in board.zombies)
+                    foreach (Agent agent in board.agents)
                     {
-                        if (flowerPos != zombies.AgentPosition)
+                        if (flowerPos == agent.AgentPosition && agent.ElementType == Type.Zombie)
                         {
-                            agentMoves.Add(moorePos);
+                            validPos = false;
                         }
                     }
+                }
+
+                if (validPos)
+                {
+                    agentMoves.add(moorePos);
                 }
             }
         }

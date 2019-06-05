@@ -9,8 +9,9 @@ namespace TrabalhoPratico2
         // Variables and Properties
         private Params boardParams;
         private GameElement[,] currentBoard;
-        internal  List<Zombie> zombies;
-        internal List<Human> humans;
+        public List<Agent> agents { get; set; }
+        //internal  List<Zombie> zombies;
+        //internal List<Human> humans;
         private Random rnd;
 
         public int NumberColumns { get; private set; } = 0;
@@ -23,8 +24,9 @@ namespace TrabalhoPratico2
             NumberColumns = boardParams.MaxX;
             NumberRows = boardParams.MaxY;
             currentBoard = new GameElement[NumberColumns, NumberRows];
-            zombies = new List<Zombie>();
-            humans = new List<Human>();
+            agents = new List<Agent>();
+            //zombies = new List<Zombie>();
+            //humans = new List<Human>();
         }
 
         public void StartBoard()
@@ -63,7 +65,7 @@ namespace TrabalhoPratico2
                 localPosition = FindFreeSpot();
 
                 localZombie = new Zombie(localPosition.X, localPosition.Y, boardParams, i);
-                zombies.Add(localZombie);
+                agents.Add(localZombie);
                 currentBoard[localPosition.X, localPosition.Y] = localZombie;
             }
 
@@ -79,7 +81,7 @@ namespace TrabalhoPratico2
                 localPosition = FindFreeSpot();
 
                 localHuman = new Human(localPosition.X, localPosition.Y, boardParams, i);
-                humans.Add(localHuman);
+                agents.Add(localHuman);
                 currentBoard[localPosition.X, localPosition.Y] = localHuman;
             }
 

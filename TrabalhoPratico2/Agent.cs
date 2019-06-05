@@ -150,11 +150,22 @@ namespace TrabalhoPratico2
                 neighR1.Add(GetNewNeighR1(i, pos));
             }
         }
-
+        protected virtual void PathFinding(Board board)
+        {
+            UpdateNeighR1();
+            foreach (Position moorePos in neighR1)
+            {
+                foreach (Agent agent in board.agents)
+                {
+                    if (moorePos != agent.AgentPosition)
+                    {
+                        possibleMoves.Add(moorePos);
+                    }
+                }
+            }
+        }
         public string Move()
         {
-
-
             UpdateNeighR1();
 
             return "Ola";
