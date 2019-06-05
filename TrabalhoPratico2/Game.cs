@@ -35,13 +35,13 @@ namespace TrabalhoPratico2
             while (currentTurn >= gameParams.MaxTurns)
             {
                 render.Renderer(board, "");
-                foreach(Zombie z in board.zombies)
+                foreach(Agent z in board.agents)
                 {
-                    z.Move(z);
+                    z.Move();
                 }
                 Console.WriteLine($"Zombie 2: X: " +
-                    $"{board.zombies[2].AgentPosition.X};" +
-                    $"Y: {board.zombies[2].AgentPosition.Y};");
+                    $"{board.agents[2].AgentPosition.X};" +
+                    $"Y: {board.agents[2].AgentPosition.Y};");
                 Console.ReadLine();
             }
         }

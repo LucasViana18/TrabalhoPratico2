@@ -164,11 +164,9 @@ namespace TrabalhoPratico2
                 }
             }
         }
-        public string Move()
+        public void Move()
         {
-            UpdateNeighR1();
-
-            return "Ola";
+            AgentPosition.X--;
         }
 
         public Position VerifyOtherPosition() // other is placeholder
