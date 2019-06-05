@@ -24,7 +24,7 @@ namespace TrabalhoPratico2
             {
                 if (r != 0) Console.WriteLine();
 
-                //Draw 5 columns per row
+                //Draw columns per row
                 for (int c = 0; c < board.NumberColumns; c++)
                 {
                     item = board.GetElementInPosition(c, r);
