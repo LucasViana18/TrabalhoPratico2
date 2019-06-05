@@ -85,8 +85,13 @@ namespace TrabalhoPratico2
 
         }
 
-        public GameElement GetElementInPosition(int col, int row)
+        public GameElement GetElementInPosition(int col, int row, Board board)
         {
+            Position pos = new Position(col, row);
+            foreach (Position agentPos in board.agents)
+            {
+
+            }
             return currentBoard[col, row];
         }
     }
