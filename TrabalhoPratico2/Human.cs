@@ -14,7 +14,7 @@ namespace TrabalhoPratico2
             this.elementType = Type.Human;
         }
 
-        public override void PathFinding(Board board)
+        protected override void PathFinding(Board board)
         {
             base.PathFinding(board);
 
@@ -36,7 +36,7 @@ namespace TrabalhoPratico2
 
                 if (validPos)
                 {
-                    agentMoves.add(moorePos);
+                    agentMoves.Add(moorePos);
                 }
             }
         }

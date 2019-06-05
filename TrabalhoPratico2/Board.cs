@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TrabalhoPratico2
 {
-    class Board
+    public class Board
     {
         // Variables and Properties
         private Params boardParams;
