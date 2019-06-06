@@ -92,6 +92,27 @@ namespace TrabalhoPratico2
             return currentBoard[col, row];
         }
 
+        public Type GetElementType(int col, int row)
+        {
+            return currentBoard[col, row].ElementType;
+        }
+
+        public Position ToroidalConvert(int col, int row)
+        {
+            Position toReturn = new Position(col, row);
+
+            toReturn.X = (toReturn.X > NumberColumns) ?
+                toReturn.X - NumberColumns : toReturn.X;
+            toReturn.Y = (toReturn.Y > NumberRows) ?
+                toReturn.Y - NumberRows : toReturn.Y;
+            toReturn.X = (toReturn.X < 0) ?
+                toReturn.X + NumberColumns : toReturn.X;
+            toReturn.Y = (toReturn.Y < 1) ?
+                toReturn.Y + NumberRows : toReturn.Y;
+
+            return toReturn;
+        }
+
         public string GetSymbolInPosition(int col, int row)
         {
             foreach (Agent agent in agents)

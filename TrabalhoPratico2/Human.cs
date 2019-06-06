@@ -54,5 +54,67 @@ namespace TrabalhoPratico2
             return "h" + AgentID;
         }
 
+        public override void Move()
+        {
+            base.Move();
+
+            Position newHumanPos;
+            Position threatPos = FindNear(Type.Zombie);
+
+            if (threatPos.X != -100)  // Zombie found
+            {
+                newHumanPos = RunAway(threatPos);
+            }
+
+        }
+
+        private Position RunAway(Position threatPos)
+        {
+            int[,] toMove;
+
+            if (threatPos.X == this.currentPosition.X)
+            {
+                if (threatPos.Y > this.currentPosition.Y)
+                {
+                    toMove = vectorTop;
+                }
+                else
+                {
+                    toMove = vectorBottom;
+                }
+            }
+            else if (threatPos.Y == this.currentPosition.Y)
+            {
+                if (threatPos.X > this.currentPosition.X)
+                {
+                    int[] add;
+                    toMove =
+                }
+                else
+                {
+                    toMove = new int[3, 2] { { 1, -1 }, { 1, 0 }, { 1, 1 } };
+                }
+            }
+            else  // X and Y are different = diagonal 
+            {
+                if (threatPos.X < this.currentPosition.X && threatPos.Y < this.currentPosition.Y)
+                {
+                    toMove = new int[5, 2] { { 1, -1 }, { 1, 0 }, { 1, 1 }, { 0, 1 }, { -1, 1 } };
+                }
+                else if (threatPos.X > this.currentPosition.X && threatPos.Y < this.currentPosition.Y)
+                {
+                    toMove = new int[5, 2] { { -1, -1 }, { -1, 0 }, { -1, 1 }, { 0, 1 }, { 1, 1 } };
+                }
+                else if (threatPos.X > this.currentPosition.X && threatPos.Y > this.currentPosition.Y)
+                {
+                    toMove = new int[5, 2] { { -1, -1 }, { -1, 0 }, { -1, 1 }, { 0, -1 }, { 1, -1 } };
+                }
+                else
+                {
+                    toMove = new int[5, 2] { { 1, -1 }, { 1, 0 }, { 1, 1 }, { 0, -1 }, { -1, -1 } };
+                }
+            }
+        }
+
     }
 }
