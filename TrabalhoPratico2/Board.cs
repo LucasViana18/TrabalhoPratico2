@@ -9,13 +9,13 @@ namespace TrabalhoPratico2
         // Variables and Properties
         private Params boardParams;
         private GameElement[,] currentBoard;
-        public List<Agent> agents { get; set; }
-        //internal  List<Zombie> zombies;
-        //internal List<Human> humans;
+        private List<Agent> agents;
         private Random rnd;
 
-        public int NumberColumns { get; private set; } = 0;
-        public int NumberRows { get; private set; } = 0;
+        public int NumberColumns { get; private set; }
+        public int NumberRows { get; private set; }
+        public Position Playing { get; set; }
+        public Position Enemy { get; set; }
 
         public Board(Params p)
         {
@@ -25,8 +25,8 @@ namespace TrabalhoPratico2
             NumberRows = boardParams.MaxY;
             currentBoard = new GameElement[NumberColumns, NumberRows];
             agents = new List<Agent>();
-            //zombies = new List<Zombie>();
-            //humans = new List<Human>();
+            Playing = new Position(-1, -1);
+            Enemy = new Position(-1, -1);
         }
 
         public void StartBoard()
@@ -50,7 +50,8 @@ namespace TrabalhoPratico2
             {
                 localCol = rnd.Next(0, NumberColumns - 1);
                 localRow = rnd.Next(0, NumberRows - 1);
-            } while (GetElementInPosition(localCol, localRow).ElementType != Type.Empty);
+            } while (GetElementInPosition(localCol, localRow).
+            ElementType != Type.Empty);
 
             return new Position(localCol, localRow);
         }
@@ -64,7 +65,8 @@ namespace TrabalhoPratico2
             {
                 localPosition = FindFreeSpot();
 
-                localZombie = new Zombie(localPosition.X, localPosition.Y, boardParams, i);
+                localZombie = new Zombie(localPosition.X, localPosition.Y, 
+                    boardParams, this, i);
                 agents.Add(localZombie);
                 currentBoard[localPosition.X, localPosition.Y] = localZombie;
             }
@@ -80,7 +82,8 @@ namespace TrabalhoPratico2
             {
                 localPosition = FindFreeSpot();
 
-                localHuman = new Human(localPosition.X, localPosition.Y, boardParams, i);
+                localHuman = new Human(localPosition.X, localPosition.Y, 
+                    boardParams, this, i);
                 agents.Add(localHuman);
                 currentBoard[localPosition.X, localPosition.Y] = localHuman;
             }
@@ -101,26 +104,38 @@ namespace TrabalhoPratico2
         {
             Position toReturn = new Position(col, row);
 
-            toReturn.X = (toReturn.X > NumberColumns) ?
+            toReturn.X = (toReturn.X >= NumberColumns) ?
                 toReturn.X - NumberColumns : toReturn.X;
-            toReturn.Y = (toReturn.Y > NumberRows) ?
+            toReturn.Y = (toReturn.Y >= NumberRows) ?
                 toReturn.Y - NumberRows : toReturn.Y;
             toReturn.X = (toReturn.X < 0) ?
                 toReturn.X + NumberColumns : toReturn.X;
-            toReturn.Y = (toReturn.Y < 1) ?
+            toReturn.Y = (toReturn.Y < 0) ?
                 toReturn.Y + NumberRows : toReturn.Y;
 
             return toReturn;
         }
 
-        public string GetSymbolInPosition(int col, int row)
+        public Agent GetAgent(int index)
         {
-            foreach (Agent agent in agents)
+            if (index < 0 || index > agents.Count - 1)
             {
-                if (col == agent.AgentPosition.X && row == agent.AgentPosition.Y)
-                    return agent.GetSymbol();
+                return agents[0];
             }
-            return " . ";
+            else
+            {
+                return agents[index];
+            }
+        }
+
+        public void MoveAgent(Agent whatAgent, Position newPosition)
+        {
+            Position currentAgentPos;
+
+            currentAgentPos = whatAgent.AgentPosition;
+            currentBoard[currentAgentPos.X, currentAgentPos.Y] =
+                new GameElement(currentAgentPos.X, currentAgentPos.Y);
+            currentBoard[newPosition.X, newPosition.Y] = whatAgent;
         }
     }
 }

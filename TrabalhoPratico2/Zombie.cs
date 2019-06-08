@@ -9,18 +9,15 @@ namespace TrabalhoPratico2
         // Variables/Properties
 
         // Constructor
-        public Zombie(int startX, int startY, Params par, int lastAgentID) : base(startX, startY, par, lastAgentID)
-        {
+        public Zombie
+            (int startX, int startY, Params par, Board board, int lastAgentID):
+            base(startX, startY, par, board, lastAgentID)
+        { 
             this.elementType = Type.Zombie;
+            this.target = Type.Human;
         }
 
         // Methods
-        /*
-        public Position VerifyOtherPosition()
-        {
-            throw new NotImplementedException();
-        }
-        */
         public void TurnHuman()
         {
             // if the zombie detects a human in radius of 1, he attacks,

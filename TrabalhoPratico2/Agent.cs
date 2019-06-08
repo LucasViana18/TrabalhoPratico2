@@ -1,169 +1,100 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace TrabalhoPratico2
 {
     public class Agent : GameElement
     {
         // Variables and Properties
-        protected List<Position> agentMoves;
-        protected List<Position> possibleMoves;
-        protected List<Position> neighR1;
-        protected int myID = 0;
-        protected Params GamePar;
+        protected Params agentPar;
         protected Board agentBoard;
-        protected int[,] coordR1;
-        protected int[,] vectorTop;
-        protected int[,] vectorBottom;
-        protected int[,] vectorTopLeft;
-        protected int[,] vectorTopRight;
-        protected int[,] vectorBottomLeft;
-        protected int[,] vectorBottomRight;
+        protected Type target;
+        protected Random chosenMove;
+        protected int myID = 0;
+
+        protected List<Position> vectorMove;
+        protected List<Position> vectorMoveTop;
+        protected List<Position> vectorMoveBottom;
+        protected List<Position> vectorMoveLeft;
+        protected List<Position> vectorMoveRight;
+        protected List<Position> vectorTopLeft;
+        protected List<Position> vectorTopRight;
+        protected List<Position> vectorBottomLeft;
+        protected List<Position> vectorBottomRight;
 
         public string AgentID { get { return myID.ToString("00"); } }
         public Position AgentPosition { get { return currentPosition; } }
+        public Position LastMovement { get; protected set; }
 
         // Constructor
-        public Agent(int startX, int startY, Params par, int lastAgentID) : base(startX, startY)
+        public Agent
+            (int startX, int startY, Params par, Board board, int lastAgentID):
+            base(startX, startY)
         {
-            neighR1 = new List<Position>();
-            agentMoves = new List<Position>();
-            possibleMoves = new List<Position>();
+            vectorMove = new List<Position>();
+            vectorMoveTop = new List<Position>();
+            vectorMoveBottom = new List<Position>();
+            vectorTopLeft = new List<Position>();
+            vectorTopRight = new List<Position>();
+            vectorBottomLeft = new List<Position>();
+            vectorBottomRight = new List<Position>();
+            vectorMoveLeft = new List<Position>();
+            vectorMoveRight = new List<Position>();
 
-            GamePar = par;
+            chosenMove = new Random();
+            LastMovement = new Position(-1, -1);
+            target = Type.Empty;
+
+            agentPar = par;
+            agentBoard = board;
             myID = lastAgentID + 1;
-            vectorTop = new int[,] { { -1, -1 }, { 0, -1 }, { 1, -1 } };
-            vectorBottom = new int[,] { { -1, 1 }, { 0, 1 }, { 1, 1 } };
-            vectorTopLeft = new int[,] { { -1, 0 }, { -1, -1 } };
-            vectorTopRight = new int[,] { { 1, 0 }, { 1, -1 } };
-            vectorBottomLeft = new int[,] { { -1, 0 }, { -1, 1 } };
-            vectorBottomRight = new int[,] { { 1, 0 }, { 1, 1 } };
+            StoreVectors();
 
         }
 
-        // Methods to identify the coordenates of the Neighbour
-        protected Position GetNewNeighR1(int i)
+        private void StoreVectors()
         {
-            Position localPos = new Position(currentPosition.X, currentPosition.Y);
-            switch (i)
-            {
-                case 1:
-                    localPos.X -= 1;
-                    localPos.Y += 1;
-                    break;
-                case 2:
-                    localPos.Y += 1;
-                    break;
-                case 3:
-                    localPos.X += 1;
-                    localPos.Y += 1;
-                    break;
-                case 4:
-                    localPos.X -= 1;
-                    break;
-                case 6:
-                    localPos.X += 1;
-                    break;
-                case 7:
-                    localPos.X -= 1;
-                    localPos.Y -= 1;
-                    break;
-                case 8:
-                    localPos.Y -= 1;
-                    break;
-                case 9:
-                    localPos.X += 1;
-                    localPos.Y -= 1;
-                    break;
+            // Set VectorMoveTop
+            for (int x = -1; x <= 1; x++)
+                vectorMoveTop.Add(new Position(x, -1));
 
-                default:
-                    break;
-            }
+            // Set VectorMoveBottm
+            for (int x = -1; x <= 1; x++)
+                vectorMoveBottom.Add(new Position(x, 1));
 
-            // Matrix borders control
-            localPos.X = (localPos.X > GamePar.MaxX) ? localPos.X - GamePar.MaxX
-                : localPos.X;
-            localPos.Y = (localPos.Y > GamePar.MaxY) ? localPos.Y - GamePar.MaxY
-                : localPos.Y;
-            localPos.X = (localPos.X < 0) ? localPos.X + GamePar.MaxX
-                : localPos.X;
-            localPos.Y = (localPos.Y < 1) ? localPos.Y + GamePar.MaxY
-                : localPos.Y;
+            // Set VectorBottomLeft
+            for (int y = 0; y <= 1; y++)
+                vectorBottomLeft.Add(new Position(-1, y));
 
-            return localPos;
+            // Set vectorBottomRight
+            for (int y = 0; y <= 1; y++)
+                vectorBottomRight.Add(new Position(1, y));
+
+            // Set vectorTopLeft
+            for (int y = -1; y <= 0; y++)
+                vectorTopLeft.Add(new Position(-1, y));
+
+            // Set vectorTopRight
+            for (int y = -1; y <= 0; y++)
+                vectorTopRight.Add(new Position(1, y));
+
+            // Set VectorMove R1
+            vectorMove = vectorMoveTop.Concat(vectorMoveBottom).ToList();
+            vectorMove.Add(new Position(-1, 0));
+            vectorMove.Add(new Position(1, 0));
+
+            // Set VectorMoveLeft
+            vectorMoveLeft = vectorTopLeft;
+            vectorMoveLeft.Add(new Position(-1, 1));
+
+            // Set VectorMoveRight
+            vectorMoveRight = vectorTopRight;
+            vectorMoveRight.Add(new Position(1, 1));
         }
 
-        protected Position GetNewNeighR1(int i, Position pos)
-        {
-            Position localPos = new Position(pos.X, pos.Y);
-            switch (i)
-            {
-                case 1:
-                    localPos.X -= 1;
-                    localPos.Y += 1;
-                    break;
-                case 2:
-                    localPos.Y += 1;
-                    break;
-                case 3:
-                    localPos.X += 1;
-                    localPos.Y += 1;
-                    break;
-                case 4:
-                    localPos.X -= 1;
-                    break;
-                case 6:
-                    localPos.X += 1;
-                    break;
-                case 7:
-                    localPos.X -= 1;
-                    localPos.Y -= 1;
-                    break;
-                case 8:
-                    localPos.Y -= 1;
-                    break;
-                case 9:
-                    localPos.X += 1;
-                    localPos.Y -= 1;
-                    break;
-
-                default:
-                    break;
-            }
-
-            // Matrix borders control
-            localPos.X = (localPos.X > GamePar.MaxX) ? localPos.X - GamePar.MaxX
-                : localPos.X;
-            localPos.Y = (localPos.Y > GamePar.MaxY) ? localPos.Y - GamePar.MaxY
-                : localPos.Y;
-            localPos.X = (localPos.X < 0) ? localPos.X + GamePar.MaxX
-                : localPos.X;
-            localPos.Y = (localPos.Y < 1) ? localPos.Y + GamePar.MaxY
-                : localPos.Y;
-
-            return localPos;
-        }
-
-        protected void UpdateNeighR1()
-        {
-            neighR1.Clear();
-
-            for (int i = 1; i <= 9; i++)
-            {
-                neighR1.Add(GetNewNeighR1(i));
-            }
-        }
-
-        protected void UpdateNeighR1(Position pos)
-        {
-            neighR1.Clear();
-
-            for (int i = 1; i <= 9; i++)
-            {
-                neighR1.Add(GetNewNeighR1(i, pos));
-            }
-        }
+        /*
         protected virtual void PathFinding(Board board)
         {
             UpdateNeighR1();
@@ -178,42 +109,47 @@ namespace TrabalhoPratico2
                 }
             }
         }
-        public virtual void Move()
+        */
+        public virtual void Move(FoundAgentDetails agent)
         {
-            UpdateNeighR1();
-            AgentPosition.X--;
         }
 
-        public Position VerifyOtherPosition() // other is placeholder
+        // Apply a vector of direction to move the Agent and consider the
+        // Toroidal process.
+        protected Position ApplyVector(Position vector)
         {
-            // Percorrer as 8 posições adjacentes (Moore de raio 1) ao character
-            // para verificar se alguma delas contém um character de tipo "contrário",
-            // aumentando o raio caso não encontre nenhum com o raio atual
-
-            return AgentPosition;
-            // Caso encontre um character de tipo "contrário", retorna a posição do
-            // mesmo (? - tirar dúvida?)
-        }
-
-        protected Position FindNear(Type agentType)
-        {
-            Position toReturn;
-
             int localCol, localRow;
-            for (int i = 0; i < coordR1.GetLength(0); i++)
-            {
-                localCol = this.currentPosition.X + coordR1[i, 0];
-                localRow = this.currentPosition.Y + coordR1[i, 1];
-                toReturn = agentBoard.ToroidalConvert(localCol, localRow);
 
-                if (agentBoard.GetElementType(toReturn.X, toReturn.Y) == agentType)
+            localCol = this.currentPosition.X + vector.X;
+            localRow = this.currentPosition.Y + vector.Y;
+            return agentBoard.ToroidalConvert(localCol, localRow);
+        }
+
+        public FoundAgentDetails FindNearAgent()
+        {
+            FoundAgentDetails toReturn = new FoundAgentDetails(false, new Position(0, 0), new Position(0, 0));
+            float colLimit = agentBoard.NumberColumns / 2;
+
+            for (int r = 1; r <= Math.Round(colLimit); r++)
+            {
+                for (int vx = r * -1; vx <= r; vx++)
                 {
-                    return toReturn;
+                    for (int vy = r * -1; vy <= r; vy++)
+                    {
+                        toReturn.AgentCoord = ApplyVector(new Position(vx, vy));
+
+                        if (agentBoard.GetElementType(toReturn.AgentCoord.X, toReturn.AgentCoord.Y) == target)
+                        {
+                            toReturn.AgentReference.X = this.currentPosition.X + vx;
+                            toReturn.AgentReference.Y = this.currentPosition.Y + vy;
+                            toReturn.Found = true;
+                            return toReturn;
+                        }
+                    }
                 }
             }
-
-            // if the AgentType is not found, return a position (-100, -100)
-            return new Position(-100, -100);
+            // if the AgentType is not found, return a position (-100, -100) as a flag error
+            return toReturn;
         }
     }
 }
