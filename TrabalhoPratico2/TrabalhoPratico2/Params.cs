@@ -35,13 +35,14 @@ namespace TrabalhoPratico2
         //values taken from the args array.
         public Params ParseArgs(string[] args)
         {
-            if (true) // Debug
-            {
-                MaxX = 8;
-                MaxY = 8;
-                BotZ = 3;
-                BotH = 4;
-            }
+
+            // if (true) // Debug
+            // {
+            //     MaxX = 8;
+            //     MaxY = 8;
+            //     BotZ = 3;
+            //     BotH = 4;
+            // }
 
             for (int i = 0; i < args.Length; i++)
             {
@@ -74,6 +75,26 @@ namespace TrabalhoPratico2
                 }
             }
 
+            if (MaxX == default(int) || MaxY == default(int) ||
+                BotZ == default(int) || BotH == default(int) ||
+                MaxTurns == default(int))
+            {
+                Console.WriteLine("Parameters given were incomplete, " +
+                    "shutting down.");
+                System.Environment.Exit(1);
+            }
+
+            if ((BotZ + BotH + UserH + UserZ) > 
+                (Math.Round((double)(MaxX * MaxY) * 0.85)))
+            {
+                Console.WriteLine($"Total agents: " +
+                    $"{BotZ + BotH + UserH + UserZ}\nUsable Space: " +
+                    $"{(Math.Round((double)(MaxX * MaxY) * 0.85))}");
+                Console.WriteLine("There are too many agents on the board.\n" +
+                    "Please leave some room for the agents to move.\n" +
+                    "(15% of the board positions should be empty)");
+                System.Environment.Exit(1);
+            }
             return new Params(MaxX, MaxY, BotZ, BotH, UserZ, UserH, MaxTurns);
         }
     }
