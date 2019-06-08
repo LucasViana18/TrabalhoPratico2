@@ -33,48 +33,50 @@ namespace TrabalhoPratico2
         // line. This is repeated for all arguments that are given and used to
         // create the struct. The method returns a new Params struct, using the
         //values taken from the args array.
-        public Params ParseArgs(string[] args)
+        public bool ParseArgs(string[] args)
         {
 
-            // if (true) // Debug
-            // {
-            //     MaxX = 8;
-            //     MaxY = 8;
-            //     BotZ = 3;
-            //     BotH = 4;
-            // }
-
-            for (int i = 0; i < args.Length; i++)
+            if (true) // Debug
             {
-
-                switch (args[i])
+                MaxX = 8;
+                MaxY = 8;
+                BotZ = 3;
+                BotH = 4;
+                MaxTurns = 10;
+            }
+            else
+            {
+                for (int i = 0; i < args.Length; i++)
                 {
-                    case "-x":
-                        MaxX = int.Parse(args[i + 1]);
-                        break;
-                    case "-y":
-                        MaxY = int.Parse(args[i + 1]);
-                        break;
-                    case "-z":
-                        BotZ = int.Parse(args[i + 1]);
-                        break;
-                    case "-h":
-                        BotH = int.Parse(args[i + 1]);
-                        break;
-                    case "-Z":
-                        UserZ = int.Parse(args[i + 1]);
-                        break;
-                    case "-H":
-                        UserH = int.Parse(args[i + 1]);
-                        break;
-                    case "-t":
-                        MaxTurns = int.Parse(args[i + 1]);
-                        break;
-                    default:
-                        break;
+
+                    switch (args[i])
+                    {
+                        case "-x":
+                            MaxX = int.Parse(args[i + 1]);
+                            break;
+                        case "-y":
+                            MaxY = int.Parse(args[i + 1]);
+                            break;
+                        case "-z":
+                            BotZ = int.Parse(args[i + 1]);
+                            break;
+                        case "-h":
+                            BotH = int.Parse(args[i + 1]);
+                            break;
+                        case "-Z":
+                            UserZ = int.Parse(args[i + 1]);
+                            break;
+                        case "-H":
+                            UserH = int.Parse(args[i + 1]);
+                            break;
+                        case "-t":
+                            MaxTurns = int.Parse(args[i + 1]);
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
-
             if (MaxX == default(int) || MaxY == default(int) ||
                 BotZ == default(int) || BotH == default(int) ||
                 MaxTurns == default(int))
@@ -95,7 +97,8 @@ namespace TrabalhoPratico2
                     "(15% of the board positions should be empty)");
                 System.Environment.Exit(1);
             }
-            return new Params(MaxX, MaxY, BotZ, BotH, UserZ, UserH, MaxTurns);
+            return (BotZ != 0 && BotH != 0 && MaxX != 0 && MaxY != 0 && 
+                MaxTurns != 0);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace TrabalhoPratico2
 {
@@ -9,11 +10,15 @@ namespace TrabalhoPratico2
         // Variables/Properties
 
         // Constructor
-        public Human(int startX, int startY, Params par, int lastAgentID) : base(startX, startY, par, lastAgentID)
+        public Human
+            (int startX, int startY, Params par, Board board, int lastAgentID):
+            base(startX, startY, par, board, lastAgentID)
         {
             this.elementType = Type.Human;
+            this.target = Type.Zombie;
         }
-
+        
+        /*
         protected override void PathFinding(Board board)
         {
             base.PathFinding(board);
@@ -40,80 +45,80 @@ namespace TrabalhoPratico2
                 }
             }
         }
-
-        // Methods
-        /*
-        public override Position VerifyOtherPosition()
-        {
-            throw new NotImplementedException();
-        }
         */
-
         public override string GetSymbol()
         {
             return "h" + AgentID;
         }
 
-        public override void Move()
+        public override void Move(FoundAgentDetails zombie)
         {
-            base.Move();
-
-            Position newHumanPos;
-            Position threatPos = FindNear(Type.Zombie);
-
-            if (threatPos.X != -100)  // Zombie found
+            // Zombie found
+            if (zombie.Found && agentBoard.GetElementType
+                (zombie.AgentCoord.X, zombie.AgentCoord.Y) == Type.Zombie)
             {
-                newHumanPos = RunAway(threatPos);
+                LastMovement = RunAway(zombie);
+
+                if (agentBoard.GetElementType(LastMovement.X, LastMovement.Y)
+                    == Type.Empty)
+                {
+                    agentBoard.MoveAgent(this, LastMovement);
+                    currentPosition.X = LastMovement.X;
+                    currentPosition.Y = LastMovement.Y;
+                }
             }
 
         }
 
-        private Position RunAway(Position threatPos)
+        private Position RunAway(FoundAgentDetails zombie)
         {
-            int[,] toMove;
+            Position chosenPosition;
+            List<Position> toMove = new List<Position>();
 
-            if (threatPos.X == this.currentPosition.X)
+            if (zombie.AgentReference.X == this.currentPosition.X)
             {
-                if (threatPos.Y > this.currentPosition.Y)
+                if (zombie.AgentReference.Y > this.currentPosition.Y)
                 {
-                    toMove = vectorTop;
+                    toMove = vectorMoveTop;
                 }
                 else
                 {
-                    toMove = vectorBottom;
+                    toMove = vectorMoveBottom;
                 }
             }
-            else if (threatPos.Y == this.currentPosition.Y)
+            else if (zombie.AgentReference.Y == this.currentPosition.Y)
             {
-                if (threatPos.X > this.currentPosition.X)
+                if (zombie.AgentReference.X > this.currentPosition.X)
                 {
-                    int[] add;
-                    toMove =
+                    toMove = vectorMoveLeft;
                 }
                 else
                 {
-                    toMove = new int[3, 2] { { 1, -1 }, { 1, 0 }, { 1, 1 } };
+                    toMove = vectorMoveRight;
                 }
             }
             else  // X and Y are different = diagonal 
             {
-                if (threatPos.X < this.currentPosition.X && threatPos.Y < this.currentPosition.Y)
+                if (zombie.AgentReference.Y < this.currentPosition.Y)
                 {
-                    toMove = new int[5, 2] { { 1, -1 }, { 1, 0 }, { 1, 1 }, { 0, 1 }, { -1, 1 } };
-                }
-                else if (threatPos.X > this.currentPosition.X && threatPos.Y < this.currentPosition.Y)
-                {
-                    toMove = new int[5, 2] { { -1, -1 }, { -1, 0 }, { -1, 1 }, { 0, 1 }, { 1, 1 } };
-                }
-                else if (threatPos.X > this.currentPosition.X && threatPos.Y > this.currentPosition.Y)
-                {
-                    toMove = new int[5, 2] { { -1, -1 }, { -1, 0 }, { -1, 1 }, { 0, -1 }, { 1, -1 } };
+                    toMove = 
+                        (zombie.AgentReference.X < this.currentPosition.X) ?
+                        vectorMoveBottom.Concat(vectorTopRight).ToList() :
+                        vectorMoveBottom.Concat(vectorTopLeft).ToList();
                 }
                 else
                 {
-                    toMove = new int[5, 2] { { 1, -1 }, { 1, 0 }, { 1, 1 }, { 0, -1 }, { -1, -1 } };
+                    toMove = 
+                        (zombie.AgentReference.X < this.currentPosition.X) ?
+                        vectorMoveTop.Concat(vectorBottomRight).ToList() :
+                        vectorMoveTop.Concat(vectorBottomLeft).ToList();
                 }
             }
+
+            chosenPosition = 
+                ApplyVector(toMove[chosenMove.Next(0, toMove.Count)]);
+
+            return chosenPosition;
         }
 
     }
