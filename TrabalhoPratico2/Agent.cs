@@ -12,6 +12,14 @@ namespace TrabalhoPratico2
         protected List<Position> neighR1;
         protected int myID = 0;
         protected Params GamePar;
+        protected Board agentBoard;
+        protected int[,] coordR1;
+        protected int[,] vectorTop;
+        protected int[,] vectorBottom;
+        protected int[,] vectorTopLeft;
+        protected int[,] vectorTopRight;
+        protected int[,] vectorBottomLeft;
+        protected int[,] vectorBottomRight;
 
         public string AgentID { get { return myID.ToString("00"); } }
         public Position AgentPosition { get { return currentPosition; } }
@@ -25,6 +33,12 @@ namespace TrabalhoPratico2
 
             GamePar = par;
             myID = lastAgentID + 1;
+            vectorTop = new int[,] { { -1, -1 }, { 0, -1 }, { 1, -1 } };
+            vectorBottom = new int[,] { { -1, 1 }, { 0, 1 }, { 1, 1 } };
+            vectorTopLeft = new int[,] { { -1, 0 }, { -1, -1 } };
+            vectorTopRight = new int[,] { { 1, 0 }, { 1, -1 } };
+            vectorBottomLeft = new int[,] { { -1, 0 }, { -1, 1 } };
+            vectorBottomRight = new int[,] { { 1, 0 }, { 1, 1 } };
 
         }
 
@@ -150,14 +164,24 @@ namespace TrabalhoPratico2
                 neighR1.Add(GetNewNeighR1(i, pos));
             }
         }
-
-        public string Move()
+        protected virtual void PathFinding(Board board)
         {
-
-
             UpdateNeighR1();
-
-            return "Ola";
+            foreach (Position moorePos in neighR1)
+            {
+                foreach (Agent agent in board.agents)
+                {
+                    if (moorePos != agent.AgentPosition)
+                    {
+                        possibleMoves.Add(moorePos);
+                    }
+                }
+            }
+        }
+        public virtual void Move()
+        {
+            UpdateNeighR1();
+            AgentPosition.X--;
         }
 
         public Position VerifyOtherPosition() // other is placeholder
@@ -169,6 +193,27 @@ namespace TrabalhoPratico2
             return AgentPosition;
             // Caso encontre um character de tipo "contrário", retorna a posição do
             // mesmo (? - tirar dúvida?)
+        }
+
+        protected Position FindNear(Type agentType)
+        {
+            Position toReturn;
+
+            int localCol, localRow;
+            for (int i = 0; i < coordR1.GetLength(0); i++)
+            {
+                localCol = this.currentPosition.X + coordR1[i, 0];
+                localRow = this.currentPosition.Y + coordR1[i, 1];
+                toReturn = agentBoard.ToroidalConvert(localCol, localRow);
+
+                if (agentBoard.GetElementType(toReturn.X, toReturn.Y) == agentType)
+                {
+                    return toReturn;
+                }
+            }
+
+            // if the AgentType is not found, return a position (-100, -100)
+            return new Position(-100, -100);
         }
     }
 }

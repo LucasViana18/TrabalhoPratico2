@@ -4,13 +4,14 @@ using System.Text;
 
 namespace TrabalhoPratico2
 {
-    class Board
+    public class Board
     {
         // Variables and Properties
         private Params boardParams;
         private GameElement[,] currentBoard;
-        internal  List<Zombie> zombies;
-        internal List<Human> humans;
+        public List<Agent> agents { get; set; }
+        //internal  List<Zombie> zombies;
+        //internal List<Human> humans;
         private Random rnd;
 
         public int NumberColumns { get; private set; } = 0;
@@ -23,8 +24,9 @@ namespace TrabalhoPratico2
             NumberColumns = boardParams.MaxX;
             NumberRows = boardParams.MaxY;
             currentBoard = new GameElement[NumberColumns, NumberRows];
-            zombies = new List<Zombie>();
-            humans = new List<Human>();
+            agents = new List<Agent>();
+            //zombies = new List<Zombie>();
+            //humans = new List<Human>();
         }
 
         public void StartBoard()
@@ -63,7 +65,7 @@ namespace TrabalhoPratico2
                 localPosition = FindFreeSpot();
 
                 localZombie = new Zombie(localPosition.X, localPosition.Y, boardParams, i);
-                zombies.Add(localZombie);
+                agents.Add(localZombie);
                 currentBoard[localPosition.X, localPosition.Y] = localZombie;
             }
 
@@ -79,7 +81,7 @@ namespace TrabalhoPratico2
                 localPosition = FindFreeSpot();
 
                 localHuman = new Human(localPosition.X, localPosition.Y, boardParams, i);
-                humans.Add(localHuman);
+                agents.Add(localHuman);
                 currentBoard[localPosition.X, localPosition.Y] = localHuman;
             }
 
@@ -88,6 +90,37 @@ namespace TrabalhoPratico2
         public GameElement GetElementInPosition(int col, int row)
         {
             return currentBoard[col, row];
+        }
+
+        public Type GetElementType(int col, int row)
+        {
+            return currentBoard[col, row].ElementType;
+        }
+
+        public Position ToroidalConvert(int col, int row)
+        {
+            Position toReturn = new Position(col, row);
+
+            toReturn.X = (toReturn.X > NumberColumns) ?
+                toReturn.X - NumberColumns : toReturn.X;
+            toReturn.Y = (toReturn.Y > NumberRows) ?
+                toReturn.Y - NumberRows : toReturn.Y;
+            toReturn.X = (toReturn.X < 0) ?
+                toReturn.X + NumberColumns : toReturn.X;
+            toReturn.Y = (toReturn.Y < 1) ?
+                toReturn.Y + NumberRows : toReturn.Y;
+
+            return toReturn;
+        }
+
+        public string GetSymbolInPosition(int col, int row)
+        {
+            foreach (Agent agent in agents)
+            {
+                if (col == agent.AgentPosition.X && row == agent.AgentPosition.Y)
+                    return agent.GetSymbol();
+            }
+            return " . ";
         }
     }
 }

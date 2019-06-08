@@ -7,7 +7,7 @@ namespace TrabalhoPratico2
     class Render
     {
         private string message;
-        private GameElement item;
+        string symbol;
 
         //Methods
         public void Renderer(Board board, string msg)
@@ -18,20 +18,19 @@ namespace TrabalhoPratico2
             Console.Clear();
             Console.OutputEncoding = Encoding.UTF8;
             Console.WriteLine("     Zombie Game!      \n");
-
+            
             //Check and update which row is being draw
             for (int r = 0; r < board.NumberRows; r++)
             {
                 if (r != 0) Console.WriteLine();
 
-                //Draw 5 columns per row
+                //Draw columns per row
                 for (int c = 0; c < board.NumberColumns; c++)
                 {
-                    item = board.GetElementInPosition(c, r);
-                    Console.Write(" " + item.GetSymbol() + " ");
+                    symbol = board.GetSymbolInPosition(c, r);
+                    Console.Write(" " + symbol + " ");
                 }
             }
-
 
             Console.ForegroundColor = ConsoleColor.White;
 
