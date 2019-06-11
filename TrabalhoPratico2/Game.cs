@@ -28,12 +28,6 @@ namespace TrabalhoPratico2
         }
 
         // Methods
-        // Initialize the game
-        private void GameStart()
-        {
-            board.StartBoard();
-        }
-
         private int GetNextAgent()
         {
             // Variables
@@ -66,8 +60,8 @@ namespace TrabalhoPratico2
             // Variables
             FoundAgentDetails target;
 
-            // Start of the game
-            GameStart();
+            // Initialize board
+            board.StartBoard();
 
             // Loop of turns
             for (int i = 1; i <= gameParams.MaxTurns; i++)
@@ -83,7 +77,7 @@ namespace TrabalhoPratico2
                     // Get the agent to move
                     agentToMove = board.GetAgent(GetNextAgent());
                     render.Renderer(board, "Will be moved: " + agentToMove.GetSymbol());
-                    System.Threading.Thread.Sleep(500);
+                    System.Threading.Thread.Sleep(100);
 
                     // (Temporary) Case picked agent is human
                     if (agentToMove.ElementType != Type.Empty)
@@ -100,13 +94,13 @@ namespace TrabalhoPratico2
                                 board.GetElementInPosition
                                 (target.AgentCoord.X, target.AgentCoord.Y).
                                 GetSymbol());
-                            System.Threading.Thread.Sleep(500);
+                            System.Threading.Thread.Sleep(100);
                             // Move the picked agent
                             agentToMove.Move(target);
                         }
                         // Post action
                         render.Renderer(board, "Agent " + agentToMove.GetSymbol() + " moved to: " + agentToMove.LastMovement.X + ", " + agentToMove.LastMovement.Y);
-                        System.Threading.Thread.Sleep(500);
+                        System.Threading.Thread.Sleep(100);
                     }
                 }
             }
