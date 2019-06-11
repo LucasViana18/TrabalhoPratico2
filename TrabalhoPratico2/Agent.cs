@@ -15,10 +15,11 @@ namespace TrabalhoPratico2
         protected int myID = 0;
 
         protected List<Position> vectorMove;
-        protected List<Position> vectorMoveTop;
-        protected List<Position> vectorMoveBottom;
-        protected List<Position> vectorMoveLeft;
-        protected List<Position> vectorMoveRight;
+        protected List<Position> vectorTop;
+        protected List<Position> vectorBottom;
+        protected List<Position> vectorLeft;
+        protected List<Position> vectorRight;
+
         protected List<Position> vectorTopLeft;
         protected List<Position> vectorTopRight;
         protected List<Position> vectorBottomLeft;
@@ -35,14 +36,15 @@ namespace TrabalhoPratico2
             base(startX, startY)
         {
             vectorMove = new List<Position>();
-            vectorMoveTop = new List<Position>();
-            vectorMoveBottom = new List<Position>();
+            vectorTop = new List<Position>();
+            vectorBottom = new List<Position>();
+            vectorLeft = new List<Position>();
+            vectorRight = new List<Position>();
+
             vectorTopLeft = new List<Position>();
             vectorTopRight = new List<Position>();
             vectorBottomLeft = new List<Position>();
             vectorBottomRight = new List<Position>();
-            vectorMoveLeft = new List<Position>();
-            vectorMoveRight = new List<Position>();
 
             chosenMove = new Random();
             LastMovement = new Position(-1, -1);
@@ -51,48 +53,52 @@ namespace TrabalhoPratico2
             agentPar = par;
             agentBoard = board;
             myID = lastAgentID + 1;
-            StoreVectors();
+            SetVectors();
 
         }
 
-        private void StoreVectors()
+        private void SetVectors()
         {
-            // Set VectorMoveTop
+            // Set VectorTop
             for (int x = -1; x <= 1; x++)
-                vectorMoveTop.Add(new Position(x, -1));
+                vectorTop.Add(new Position(x, -1));
 
-            // Set VectorMoveBottm
+            // Set VectorBottom
             for (int x = -1; x <= 1; x++)
-                vectorMoveBottom.Add(new Position(x, 1));
+                vectorBottom.Add(new Position(x, 1));
+
+            // Set VectorLeft
+            for (int y = -1; y <= 1; y++)
+                vectorLeft.Add(new Position(-1, y));
+
+            // Set VectorRight
+            for (int y = -1; y <= 1; y++)
+                vectorRight.Add(new Position(1, y));
 
             // Set VectorBottomLeft
             for (int y = 0; y <= 1; y++)
                 vectorBottomLeft.Add(new Position(-1, y));
+            vectorBottomLeft.Add(new Position(0, 1));
 
             // Set vectorBottomRight
             for (int y = 0; y <= 1; y++)
                 vectorBottomRight.Add(new Position(1, y));
+            vectorBottomRight.Add(new Position(0, 1));
 
             // Set vectorTopLeft
             for (int y = -1; y <= 0; y++)
                 vectorTopLeft.Add(new Position(-1, y));
+            vectorTopLeft.Add(new Position(0, -1));
 
             // Set vectorTopRight
             for (int y = -1; y <= 0; y++)
                 vectorTopRight.Add(new Position(1, y));
+            vectorTopRight.Add(new Position(0, -1));
 
             // Set VectorMove R1
-            vectorMove = vectorMoveTop.Concat(vectorMoveBottom).ToList();
+            vectorMove = vectorTop.Concat(vectorBottom).ToList();
             vectorMove.Add(new Position(-1, 0));
             vectorMove.Add(new Position(1, 0));
-
-            // Set VectorMoveLeft
-            vectorMoveLeft = vectorTopLeft;
-            vectorMoveLeft.Add(new Position(-1, 1));
-
-            // Set VectorMoveRight
-            vectorMoveRight = vectorTopRight;
-            vectorMoveRight.Add(new Position(1, 1));
         }
 
         /*
@@ -151,6 +157,61 @@ namespace TrabalhoPratico2
             }
             // if the AgentType is not found, return a position (-100, -100) as a flag error
             return toReturn;
+        }
+
+        protected Position Behaviour(FoundAgentDetails enemyAgent, bool attract)
+        {
+            Position chosenPosition;
+            List<Position> toMove = new List<Position>();
+
+            if (enemyAgent.AgentReference.X == this.currentPosition.X)
+            {
+                if (enemyAgent.AgentReference.Y > this.currentPosition.Y)
+                {
+                    toMove = attract ? vectorBottom : vectorTop;
+                }
+                else
+                {
+                    toMove = attract ? vectorTop : vectorBottom;
+                }
+            }
+            else if (enemyAgent.AgentReference.Y == this.currentPosition.Y)
+            {
+                if (enemyAgent.AgentReference.X > this.currentPosition.X)
+                {
+                    toMove = attract ? vectorRight : vectorLeft;
+                }
+                else
+                {
+                    toMove = attract ? vectorLeft : vectorRight;
+                }
+            }
+            else  // X and Y are different = diagonal 
+            {
+                if (enemyAgent.AgentReference.Y < this.currentPosition.Y)
+                {
+                    if (enemyAgent.AgentReference.X < this.currentPosition.X)
+                        toMove = attract ?
+                        vectorTopLeft : vectorBottomRight;
+                    else
+                        toMove = attract ?
+                        vectorTopRight : vectorBottomLeft;
+                }
+                else
+                {
+                    if (enemyAgent.AgentReference.X < this.currentPosition.X)
+                        toMove = attract ?
+                        vectorBottomLeft : vectorTopRight;
+                    else
+                        toMove = attract ?
+                        vectorBottomRight : vectorTopLeft;
+                }
+            }
+
+            chosenPosition =
+                ApplyVector(toMove[chosenMove.Next(0, toMove.Count)]);
+            return chosenPosition;
+
         }
     }
 }

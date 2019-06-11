@@ -11,6 +11,7 @@ namespace TrabalhoPratico2
         private GameElement[,] currentBoard;
         private List<Agent> agents;
         private Random rnd;
+        private Agent agent;
 
         public int NumberColumns { get; private set; }
         public int NumberRows { get; private set; }
@@ -136,6 +137,20 @@ namespace TrabalhoPratico2
             currentBoard[currentAgentPos.X, currentAgentPos.Y] =
                 new GameElement(currentAgentPos.X, currentAgentPos.Y);
             currentBoard[newPosition.X, newPosition.Y] = whatAgent;
+        }
+
+        public void ChangeAgentType(Position posAgent)
+        {
+            Agent localAgent, whatAgent;
+
+            whatAgent = GetElementInPosition(posAgent.X, posAgent.Y) as Agent;
+
+            localAgent = new Zombie(whatAgent.AgentPosition.X, whatAgent.AgentPosition.Y, boardParams, this, agents.Count + 1);
+
+            // copy the type of movement (auto or manual) to the new object
+            agents.RemoveAll(item => item.AgentID == whatAgent.AgentID);
+            agents.Add(localAgent);
+            currentBoard[localAgent.AgentPosition.X, localAgent.AgentPosition.Y] = localAgent;
         }
     }
 }
