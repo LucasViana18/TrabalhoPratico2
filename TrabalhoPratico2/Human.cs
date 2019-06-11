@@ -58,14 +58,14 @@ namespace TrabalhoPratico2
             if (zombie.Found && agentBoard.GetElementType
                 (zombie.AgentCoord.X, zombie.AgentCoord.Y) == Type.Zombie)
             {
-                LastMovement = Behaviour(zombie, false);
+                lastMovement = Behaviour(zombie, false);
 
-                if (agentBoard.GetElementType(LastMovement.X, LastMovement.Y)
+                if (agentBoard.GetElementType(lastMovement.X, lastMovement.Y)
                     == Type.Empty)
                 {
-                    agentBoard.MoveAgent(this, LastMovement);
-                    currentPosition.X = LastMovement.X;
-                    currentPosition.Y = LastMovement.Y;
+                    agentBoard.MoveAgent(this, lastMovement);
+                    currentPosition.X = lastMovement.X;
+                    currentPosition.Y = lastMovement.Y;
                 }
             }
         }

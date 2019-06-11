@@ -38,13 +38,13 @@ namespace TrabalhoPratico2
             {
                 if (!HumanNear(human))
                 {
-                    LastMovement = Behaviour(human, true); // attract by the agent Human
+                    lastMovement = Behaviour(human, true); // attract by the agent Human
 
-                    if (agentBoard.GetElementType(LastMovement.X, LastMovement.Y) == Type.Empty)
+                    if (agentBoard.GetElementType(lastMovement.X, lastMovement.Y) == Type.Empty)
                     {
-                        agentBoard.MoveAgent(this, LastMovement);
-                        currentPosition.X = LastMovement.X;
-                        currentPosition.Y = LastMovement.Y;
+                        agentBoard.MoveAgent(this, lastMovement);
+                        currentPosition.X = lastMovement.X;
+                        currentPosition.Y = lastMovement.Y;
                     }
                 }
                 else

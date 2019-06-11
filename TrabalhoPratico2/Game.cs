@@ -77,7 +77,7 @@ namespace TrabalhoPratico2
                     // Get the agent to move
                     agentToMove = board.GetAgent(GetNextAgent());
                     render.Renderer(board, "Will be moved: " + agentToMove.GetSymbol());
-                    System.Threading.Thread.Sleep(100);
+                    System.Threading.Thread.Sleep(1000);
 
                     // (Temporary) Case picked agent is human
                     if (agentToMove.ElementType != Type.Empty)
@@ -94,13 +94,13 @@ namespace TrabalhoPratico2
                                 board.GetElementInPosition
                                 (target.AgentCoord.X, target.AgentCoord.Y).
                                 GetSymbol());
-                            System.Threading.Thread.Sleep(100);
+                            System.Threading.Thread.Sleep(1000);
                             // Move the picked agent
                             agentToMove.Move(target);
                         }
                         // Post action
-                        render.Renderer(board, "Agent " + agentToMove.GetSymbol() + " moved to: " + agentToMove.LastMovement.X + ", " + agentToMove.LastMovement.Y);
-                        System.Threading.Thread.Sleep(100);
+                        render.Renderer(board, "Agent " + agentToMove.GetSymbol() + " moved to: " + agentToMove.lastMovement.X + ", " + agentToMove.lastMovement.Y);
+                        System.Threading.Thread.Sleep(1000);
                     }
                 }
             }

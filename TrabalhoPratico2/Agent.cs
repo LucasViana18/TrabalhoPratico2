@@ -27,7 +27,7 @@ namespace TrabalhoPratico2
 
         public string AgentID { get { return myID.ToString("00"); } }
         public Position AgentPosition { get { return currentPosition; } }
-        public Position LastMovement { get; protected set; }
+        public Position lastMovement { get; protected set; }
         public ControlType Control { get; set; }
 
         // Constructor
@@ -47,7 +47,7 @@ namespace TrabalhoPratico2
             vectorBottomRight = new List<Position>();
 
             chosenMove = new Random();
-            LastMovement = new Position(-1, -1);
+            lastMovement = new Position(-1, -1);
             target = Type.Empty;
 
             agentPar = par;
