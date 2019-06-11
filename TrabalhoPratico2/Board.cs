@@ -66,8 +66,8 @@ namespace TrabalhoPratico2
             {
                 localPosition = FindFreeSpot();
 
-                localZombie = new Zombie(localPosition.X, localPosition.Y, 
-                    boardParams, this, i);
+                localZombie = new Zombie(localPosition.X, localPosition.Y,
+                    boardParams, this, NewAgentId());
                 agents.Add(localZombie);
                 currentBoard[localPosition.X, localPosition.Y] = localZombie;
             }
@@ -83,8 +83,8 @@ namespace TrabalhoPratico2
             {
                 localPosition = FindFreeSpot();
 
-                localHuman = new Human(localPosition.X, localPosition.Y, 
-                    boardParams, this, i);
+                localHuman = new Human(localPosition.X, localPosition.Y,
+                    boardParams, this, NewAgentId());
                 agents.Add(localHuman);
                 currentBoard[localPosition.X, localPosition.Y] = localHuman;
             }
@@ -145,12 +145,25 @@ namespace TrabalhoPratico2
 
             whatAgent = GetElementInPosition(posAgent.X, posAgent.Y) as Agent;
 
-            localAgent = new Zombie(whatAgent.AgentPosition.X, whatAgent.AgentPosition.Y, boardParams, this, agents.Count + 1);
+            localAgent = new Zombie(whatAgent.AgentPosition.X, whatAgent.AgentPosition.Y, boardParams, this, whatAgent.AgentID);
 
             // copy the type of movement (auto or manual) to the new object
             agents.RemoveAll(item => item.AgentID == whatAgent.AgentID);
             agents.Add(localAgent);
             currentBoard[localAgent.AgentPosition.X, localAgent.AgentPosition.Y] = localAgent;
+        }
+
+        public string NewAgentId()
+        {
+            int id;
+            string idHex;
+            do
+            {
+                id = rnd.Next(1, 255);
+                idHex = id.ToString("X");
+                idHex = idHex.Length == 1 ? "0" + idHex : idHex;
+            } while (agents.Exists(item => item.AgentID == idHex));
+            return idHex;
         }
     }
 }

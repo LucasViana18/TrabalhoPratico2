@@ -10,8 +10,8 @@ namespace TrabalhoPratico2
 
         // Constructor
         public Zombie
-            (int startX, int startY, Params par, Board board, int lastAgentID):
-            base(startX, startY, par, board, lastAgentID)
+            (int startX, int startY, Params par, Board board, string agentID) :
+            base(startX, startY, par, board, agentID)
         { 
             this.elementType = Type.Zombie;
             this.target = Type.Human;

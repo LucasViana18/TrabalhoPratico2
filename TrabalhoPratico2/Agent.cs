@@ -12,7 +12,6 @@ namespace TrabalhoPratico2
         protected Board agentBoard;
         protected Type target;
         protected Random chosenMove;
-        protected int myID = 0;
 
         protected List<Position> vectorMove;
         protected List<Position> vectorTop;
@@ -25,14 +24,14 @@ namespace TrabalhoPratico2
         protected List<Position> vectorBottomLeft;
         protected List<Position> vectorBottomRight;
 
-        public string AgentID { get { return myID.ToString("00"); } }
+        public string AgentID { get; }
         public Position AgentPosition { get { return currentPosition; } }
         public Position lastMovement { get; protected set; }
         public ControlType Control { get; set; }
 
         // Constructor
         public Agent
-            (int startX, int startY, Params par, Board board, int lastAgentID):
+            (int startX, int startY, Params par, Board board, string agentID) :
             base(startX, startY)
         {
             vectorMove = new List<Position>();
@@ -52,7 +51,7 @@ namespace TrabalhoPratico2
 
             agentPar = par;
             agentBoard = board;
-            myID = lastAgentID + 1;
+            AgentID = agentID;
             SetVectors();
 
         }
