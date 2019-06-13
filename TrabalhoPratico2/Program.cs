@@ -24,7 +24,7 @@ namespace TrabalhoPratico2
             game.GameLoop();
 
             // End game
-            Console.WriteLine("Game Over");
+            Console.WriteLine("Game Over\n");
             Environment.Exit(0);
         }
     }
