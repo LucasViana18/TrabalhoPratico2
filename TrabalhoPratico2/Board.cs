@@ -7,7 +7,7 @@ namespace TrabalhoPratico2
     public class Board
     {
         // Variables and Properties
-        private Params boardParams;
+        public readonly Params boardParams;
         private GameElement[,] currentBoard;
         private List<Agent> agents;
         private Random rnd;
@@ -164,6 +164,15 @@ namespace TrabalhoPratico2
                 idHex = idHex.Length == 1 ? "0" + idHex : idHex;
             } while (agents.Exists(item => item.AgentID == idHex));
             return idHex;
+        }
+
+        public bool WinChecker()
+        {
+            foreach(Agent agent in agents)
+            {
+                if (agent is Human h) return true;
+            }
+            return false;
         }
     }
 }
