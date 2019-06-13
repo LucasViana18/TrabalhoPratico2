@@ -31,14 +31,14 @@ namespace TrabalhoPratico2
             return (toCompare == 1);
         }
 
-        public override void Move(FoundAgentDetails human, ControlType control)
+        public override void Move(FoundAgentDetails human, Render render)
         {
 
             if (human.Found && agentBoard.GetElementType(human.AgentCoord.X, human.AgentCoord.Y) == Type.Human)  // Human  found
             {
-                if (control == ControlType.Manual)
+                if (Control == ControlType.Manual)
                 {
-                    lastMovement = ManualBehavior(human);
+                    lastMovement = ManualBehavior(render);
                 }
                 else if (!HumanNear(human))
                 {
@@ -53,6 +53,11 @@ namespace TrabalhoPratico2
                 }
                 else
                 {
+                    if (Control == ControlType.Manual)
+                    {
+                        render.Renderer(agentBoard, "Press anykey to convert human");
+                        Console.ReadKey();
+                    }                       
                     agentBoard.ChangeAgentType(human.AgentCoord);
                 }
             }
@@ -60,7 +65,7 @@ namespace TrabalhoPratico2
 
         public override string GetSymbol()
         {
-            return "z" + AgentID;
+            return Control == ControlType.Automatic ? "z" + AgentID : "Z" + AgentID;
         }
     }
 }

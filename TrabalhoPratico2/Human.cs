@@ -18,20 +18,15 @@ namespace TrabalhoPratico2
             this.target = Type.Zombie;
         }
 
-        public override string GetSymbol()
-        {
-            return "h" + AgentID;
-        }
-
-        public override void Move(FoundAgentDetails zombie, ControlType control)
+        public override void Move(FoundAgentDetails zombie, Render render)
         {
             // Zombie found
             if (zombie.Found && agentBoard.GetElementType
                 (zombie.AgentCoord.X, zombie.AgentCoord.Y) == Type.Zombie)
             {
-                if (control == ControlType.Manual)
+                if (Control == ControlType.Manual)
                 {
-                    lastMovement = ManualBehavior(zombie);
+                    lastMovement = ManualBehavior(render);
                 }
                 else
                 {
@@ -46,6 +41,11 @@ namespace TrabalhoPratico2
                     currentPosition.Y = lastMovement.Y;
                 }
             }
+        }
+
+        public override string GetSymbol()
+        {
+            return Control == ControlType.Automatic ? "h" + AgentID : "H" + AgentID;
         }
     }
 }

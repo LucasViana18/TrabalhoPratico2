@@ -25,7 +25,7 @@ namespace TrabalhoPratico2
             render = new Render();
             rnd = new Random();
             gameParams = par;
-            numberAgents = par.BotH + par.BotZ;
+            numberAgents = par.BotH + par.BotZ ;
             sequence = new bool[numberAgents];
         }
 
@@ -108,7 +108,7 @@ namespace TrabalhoPratico2
                                 GetSymbol());
                             System.Threading.Thread.Sleep(1);
                             // Move the picked agent
-                            agentToMove.Move(target, agentToMove.Control);
+                            agentToMove.Move(target, render);
                         }
                         // Post action
                         render.Renderer(board, $"Agent " +

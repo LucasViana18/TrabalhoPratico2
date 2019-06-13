@@ -42,6 +42,7 @@ namespace TrabalhoPratico2
 
             CreateZombies();
             CreateHumans();
+
             for (int i = 0; i < boardParams.UserZ; i++)
             {
                 Agent zombie;

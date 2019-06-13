@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TrabalhoPratico2
 {
-    class Render
+    public class Render
     {
         // Variables
         private string message;

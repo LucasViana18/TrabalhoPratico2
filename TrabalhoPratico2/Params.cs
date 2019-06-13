@@ -40,8 +40,8 @@ namespace TrabalhoPratico2
             {
                 MaxX = 8;
                 MaxY = 8;
-                BotZ = 1;
-                BotH = 1;
+                BotZ = 3;
+                BotH = 3;
                 UserZ = 1;
                 UserH = 1;
                 MaxTurns = 10;

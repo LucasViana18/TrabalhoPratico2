@@ -59,13 +59,23 @@ namespace TrabalhoPratico2
 
         private void SetVectors()
         {
-            // Set VectorTop
-            for (int x = -1; x <= 1; x++)
-                vectorTop.Add(new Position(x, -1));
-
             // Set VectorBottom
             for (int x = -1; x <= 1; x++)
+            {
                 vectorBottom.Add(new Position(x, 1));
+                vectorMove.Add(new Position(x, 1));
+            }
+
+            vectorMove.Add(new Position(-1, 0));
+            vectorMove.Add(new Position(0, 0));
+            vectorMove.Add(new Position(1, 0));
+
+            // Set VectorTop
+            for (int x = -1; x <= 1; x++)
+            {
+                vectorTop.Add(new Position(x, -1));
+                vectorMove.Add(new Position(x, -1));
+            }
 
             // Set VectorLeft
             for (int y = -1; y <= 1; y++)
@@ -94,14 +104,9 @@ namespace TrabalhoPratico2
             for (int y = -1; y <= 0; y++)
                 vectorTopRight.Add(new Position(1, y));
             vectorTopRight.Add(new Position(0, -1));
-
-            // Set VectorMove R1
-            vectorMove = vectorTop.Concat(vectorBottom).ToList();
-            vectorMove.Add(new Position(-1, 0));
-            vectorMove.Add(new Position(1, 0));
         }
 
-        public virtual void Move(FoundAgentDetails agent, ControlType control) { }
+        public virtual void Move(FoundAgentDetails agent, Render render) { }
 
         // Apply a vector of direction to move the Agent and consider the
         // Toroidal process.
@@ -141,49 +146,71 @@ namespace TrabalhoPratico2
             return toReturn;
         }
 
-        public Position ManualBehavior(FoundAgentDetails target)
+        public Position ManualBehavior(Render render)
         {
-            Position chosenPosition = target.AgentCoord;
-            int direction;
-            Console.Write("Please enter a move direction at numberpad: ");
-            direction = Convert.ToInt32(Console.ReadLine());
-            switch (direction)
+            int index;
+            char key;
+            render.Renderer(agentBoard, $"Please enter a move direction for {GetSymbol()} at numberpad: ");
+            do
             {
-                case 1:
-                    chosenPosition.X--;
-                    chosenPosition.Y++;
-                    return ApplyVector(chosenPosition);
-                case 2:
-                    chosenPosition.Y++;
-                    return ApplyVector(chosenPosition);
-                case 3:
-                    chosenPosition.X++;
-                    chosenPosition.Y++;
-                    return ApplyVector(chosenPosition);
-                case 4:
-                    chosenPosition.X--;
-                    return ApplyVector(chosenPosition);
-                case 5:
-                    return ApplyVector(chosenPosition);
-                case 6:
-                    chosenPosition.X++;
-                    return ApplyVector(chosenPosition);
-                case 7:
-                    chosenPosition.X--;
-                    chosenPosition.Y--;
-                    return ApplyVector(chosenPosition);
-                case 8:
-                    chosenPosition.Y--;
-                    return ApplyVector(chosenPosition);
-                case 9:
-                    chosenPosition.X++;
-                    chosenPosition.Y--;
-                    return ApplyVector(chosenPosition);
-                default:
-                    Console.WriteLine("Not a valid direction, try again!");
-                    ManualBehavior(target);
-                    return ApplyVector(chosenPosition);
-            }
+                key = Console.ReadKey().KeyChar;
+                if (key == 'q')
+                {
+                    render.Renderer(agentBoard, "Thanks for playing!");
+                    Environment.Exit(0);
+                }
+                if (char.IsDigit(key))
+                {
+                    index = Convert.ToInt32(key);
+                    if (index >= 1 && index <= 9 && index != 5)
+                    {
+                        return ApplyVector(vectorMove[index - 1]);
+                    }
+                }
+
+            } while (true);
+
+            //Position chosenPosition = this.AgentPosition;
+            //int direction;
+            //Console.Write("Please enter a move direction at numberpad: ");
+            //direction = Convert.ToInt32(Console.ReadKey());
+            //switch (direction)
+            //{
+            //    case 1:
+            //        chosenPosition.X--;
+            //        chosenPosition.Y++;
+            //        return ApplyVector(chosenPosition);
+            //    case 2:
+            //        chosenPosition.Y++;
+            //        return ApplyVector(chosenPosition);
+            //    case 3:
+            //        chosenPosition.X++;
+            //        chosenPosition.Y++;
+            //        return ApplyVector(chosenPosition);
+            //    case 4:
+            //        chosenPosition.X--;
+            //        return ApplyVector(chosenPosition);
+            //    case 5:
+            //        return ApplyVector(chosenPosition);
+            //    case 6:
+            //        chosenPosition.X++;
+            //        return ApplyVector(chosenPosition);
+            //    case 7:
+            //        chosenPosition.X--;
+            //        chosenPosition.Y--;
+            //        return ApplyVector(chosenPosition);
+            //    case 8:
+            //        chosenPosition.Y--;
+            //        return ApplyVector(chosenPosition);
+            //    case 9:
+            //        chosenPosition.X++;
+            //        chosenPosition.Y--;
+            //        return ApplyVector(chosenPosition);
+            //    default:
+            //        Console.WriteLine("Not a valid direction, try again!");
+            //        ManualBehavior(target);
+            //        return ApplyVector(chosenPosition);
+            //}
         }
 
         protected Position AutomaticBehaviour(FoundAgentDetails enemyAgent, bool attract)
