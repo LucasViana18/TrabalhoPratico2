@@ -14,7 +14,9 @@ namespace TrabalhoPratico2
         private Random rnd;
 
         private readonly int numberAgents;
+        private int currentTurn;
         private bool[] sequence;
+        private bool game;
 
         // Constructor
         public Game(Params par)
@@ -59,25 +61,35 @@ namespace TrabalhoPratico2
         {
             // Variables
             FoundAgentDetails target;
+            currentTurn = 1;
+            game = true;
 
             // Initialize board
             board.StartBoard();
 
             // Loop of turns
-            for (int i = 1; i <= gameParams.MaxTurns; i++)
+            while (game && currentTurn <= board.boardParams.MaxTurns)
             {
+                if (!game) return;
                 // Identify the number of turns
-                render.Renderer(board, "Turn: " + i + ". Press Enter to continue.");
+                render.Renderer(board, $"Turn: {currentTurn}. Press Enter to continue.");
                 Console.ReadLine();
                 ResetOrder();
 
                 // Loop of each agent
                 for (int a = 1; a <= numberAgents; a++)
                 {
+                    game = board.WinChecker();
+                    if (!game)
+                    {
+                        Console.WriteLine("The horde of zombies overcame the" +
+                            " humans...");
+                        return;
+                    }
                     // Get the agent to move
                     agentToMove = board.GetAgent(GetNextAgent());
-                    render.Renderer(board, "Will be moved: " + agentToMove.GetSymbol());
-                    System.Threading.Thread.Sleep(1000);
+                    render.Renderer(board, $"Will be moved: {agentToMove.GetSymbol()}");
+                    System.Threading.Thread.Sleep(1);
 
                     // (Temporary) Case picked agent is human
                     if (agentToMove.ElementType != Type.Empty)
@@ -94,15 +106,24 @@ namespace TrabalhoPratico2
                                 board.GetElementInPosition
                                 (target.AgentCoord.X, target.AgentCoord.Y).
                                 GetSymbol());
-                            System.Threading.Thread.Sleep(1000);
+                            System.Threading.Thread.Sleep(1);
                             // Move the picked agent
                             agentToMove.Move(target);
                         }
                         // Post action
-                        render.Renderer(board, "Agent " + agentToMove.GetSymbol() + " moved to: " + agentToMove.lastMovement.X + ", " + agentToMove.lastMovement.Y);
-                        System.Threading.Thread.Sleep(1000);
+                        render.Renderer(board, $"Agent " +
+                            $"{agentToMove.GetSymbol()} " +
+                            $"moved to: {agentToMove.lastMovement.X}, " +
+                            $"{agentToMove.lastMovement.Y}\n");
+                        System.Threading.Thread.Sleep(1);
                     }
                 }
+                if (game && currentTurn == board.boardParams.MaxTurns)
+                {
+                    Console.WriteLine("The humans have escaped the horde of" +
+                        " zombies!");
+                }
+                currentTurn++;
             }
         }
     }
