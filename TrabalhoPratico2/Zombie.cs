@@ -10,8 +10,8 @@ namespace TrabalhoPratico2
 
         // Constructor
         public Zombie
-            (int startX, int startY, Params par, Board board, string agentID) :
-            base(startX, startY, par, board, agentID)
+            (int startX, int startY, Params par, Board board, string agentID, ControlType control) :
+            base(startX, startY, par, board, agentID, control)
         { 
             this.elementType = Type.Zombie;
             this.target = Type.Human;
@@ -31,14 +31,18 @@ namespace TrabalhoPratico2
             return (toCompare == 1);
         }
 
-        public override void Move(FoundAgentDetails human)
+        public override void Move(FoundAgentDetails human, ControlType control)
         {
 
             if (human.Found && agentBoard.GetElementType(human.AgentCoord.X, human.AgentCoord.Y) == Type.Human)  // Human  found
             {
-                if (!HumanNear(human))
+                if (control == ControlType.Manual)
                 {
-                    lastMovement = Behaviour(human, true); // attract by the agent Human
+                    lastMovement = ManualBehavior(human);
+                }
+                else if (!HumanNear(human))
+                {
+                    lastMovement = AutomaticBehaviour(human, true); // attract by the agent Human
 
                     if (agentBoard.GetElementType(lastMovement.X, lastMovement.Y) == Type.Empty)
                     {

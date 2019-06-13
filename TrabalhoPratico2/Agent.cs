@@ -31,7 +31,7 @@ namespace TrabalhoPratico2
 
         // Constructor
         public Agent
-            (int startX, int startY, Params par, Board board, string agentID) :
+            (int startX, int startY, Params par, Board board, string agentID, ControlType control) :
             base(startX, startY)
         {
             vectorMove = new List<Position>();
@@ -52,6 +52,7 @@ namespace TrabalhoPratico2
             agentPar = par;
             agentBoard = board;
             AgentID = agentID;
+            Control = control;
             SetVectors();
 
         }
@@ -100,25 +101,7 @@ namespace TrabalhoPratico2
             vectorMove.Add(new Position(1, 0));
         }
 
-        /*
-        protected virtual void PathFinding(Board board)
-        {
-            UpdateNeighR1();
-            foreach (Position moorePos in neighR1)
-            {
-                foreach (Agent agent in board.agents)
-                {
-                    if (moorePos != agent.AgentPosition)
-                    {
-                        possibleMoves.Add(moorePos);
-                    }
-                }
-            }
-        }
-        */
-        public virtual void Move(FoundAgentDetails agent)
-        {
-        }
+        public virtual void Move(FoundAgentDetails agent, ControlType control) { }
 
         // Apply a vector of direction to move the Agent and consider the
         // Toroidal process.
@@ -158,7 +141,52 @@ namespace TrabalhoPratico2
             return toReturn;
         }
 
-        protected Position Behaviour(FoundAgentDetails enemyAgent, bool attract)
+        public Position ManualBehavior(FoundAgentDetails target)
+        {
+            Position chosenPosition = target.AgentCoord;
+            int direction;
+            Console.Write("Please enter a move direction at numberpad: ");
+            direction = Convert.ToInt32(Console.ReadLine());
+            switch (direction)
+            {
+                case 1:
+                    chosenPosition.X--;
+                    chosenPosition.Y++;
+                    return ApplyVector(chosenPosition);
+                case 2:
+                    chosenPosition.Y++;
+                    return ApplyVector(chosenPosition);
+                case 3:
+                    chosenPosition.X++;
+                    chosenPosition.Y++;
+                    return ApplyVector(chosenPosition);
+                case 4:
+                    chosenPosition.X--;
+                    return ApplyVector(chosenPosition);
+                case 5:
+                    return ApplyVector(chosenPosition);
+                case 6:
+                    chosenPosition.X++;
+                    return ApplyVector(chosenPosition);
+                case 7:
+                    chosenPosition.X--;
+                    chosenPosition.Y--;
+                    return ApplyVector(chosenPosition);
+                case 8:
+                    chosenPosition.Y--;
+                    return ApplyVector(chosenPosition);
+                case 9:
+                    chosenPosition.X++;
+                    chosenPosition.Y--;
+                    return ApplyVector(chosenPosition);
+                default:
+                    Console.WriteLine("Not a valid direction, try again!");
+                    ManualBehavior(target);
+                    return ApplyVector(chosenPosition);
+            }
+        }
+
+        protected Position AutomaticBehaviour(FoundAgentDetails enemyAgent, bool attract)
         {
             Position chosenPosition;
             List<Position> toMove = new List<Position>();

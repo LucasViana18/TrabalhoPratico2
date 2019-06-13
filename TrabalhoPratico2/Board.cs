@@ -42,6 +42,24 @@ namespace TrabalhoPratico2
 
             CreateZombies();
             CreateHumans();
+            for (int i = 0; i < boardParams.UserZ; i++)
+            {
+                Agent zombie;
+
+                zombie = agents.Find(x => x.ElementType == Type.Zombie 
+                && x.Control == ControlType.Automatic);
+
+                zombie.Control = ControlType.Manual;
+            }
+            for (int i = 0; i < boardParams.UserH; i++)
+            {
+                Agent human;
+
+                human = agents.Find(x => x.ElementType == Type.Human 
+                && x.Control == ControlType.Automatic);
+
+                human.Control = ControlType.Manual;
+            }
         }
 
         private Position FindFreeSpot()
@@ -67,7 +85,7 @@ namespace TrabalhoPratico2
                 localPosition = FindFreeSpot();
 
                 localZombie = new Zombie(localPosition.X, localPosition.Y,
-                    boardParams, this, NewAgentId());
+                    boardParams, this, NewAgentId(), ControlType.Automatic);
                 agents.Add(localZombie);
                 currentBoard[localPosition.X, localPosition.Y] = localZombie;
             }
@@ -84,7 +102,7 @@ namespace TrabalhoPratico2
                 localPosition = FindFreeSpot();
 
                 localHuman = new Human(localPosition.X, localPosition.Y,
-                    boardParams, this, NewAgentId());
+                    boardParams, this, NewAgentId(), ControlType.Automatic);
                 agents.Add(localHuman);
                 currentBoard[localPosition.X, localPosition.Y] = localHuman;
             }
@@ -145,7 +163,7 @@ namespace TrabalhoPratico2
 
             whatAgent = GetElementInPosition(posAgent.X, posAgent.Y) as Agent;
 
-            localAgent = new Zombie(whatAgent.AgentPosition.X, whatAgent.AgentPosition.Y, boardParams, this, whatAgent.AgentID);
+            localAgent = new Zombie(whatAgent.AgentPosition.X, whatAgent.AgentPosition.Y, boardParams, this, whatAgent.AgentID, ControlType.Automatic);
 
             // copy the type of movement (auto or manual) to the new object
             agents.RemoveAll(item => item.AgentID == whatAgent.AgentID);

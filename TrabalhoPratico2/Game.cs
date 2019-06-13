@@ -108,7 +108,7 @@ namespace TrabalhoPratico2
                                 GetSymbol());
                             System.Threading.Thread.Sleep(1);
                             // Move the picked agent
-                            agentToMove.Move(target);
+                            agentToMove.Move(target, agentToMove.Control);
                         }
                         // Post action
                         render.Renderer(board, $"Agent " +
