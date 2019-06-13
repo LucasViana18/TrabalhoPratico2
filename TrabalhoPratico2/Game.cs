@@ -11,11 +11,9 @@ namespace TrabalhoPratico2
         private Board board;
         private Render render;
         private Agent agentToMove;
-        private Random rnd;
 
         private readonly int numberAgents;
         private int currentTurn;
-        private bool[] sequence;
         private bool game;
 
         // Constructor
@@ -23,44 +21,17 @@ namespace TrabalhoPratico2
         {
             board = new Board(par);
             render = new Render();
-            rnd = new Random();
             gameParams = par;
             numberAgents = par.BotH + par.BotZ;
-            sequence = new bool[numberAgents];
         }
 
         // Methods
-        private int GetNextAgent()
-        {
-            // Variables
-            int newAgent;
-
-            // Choose, randomly, a new agent for it to play
-            do
-            {
-                newAgent = rnd.Next(0, numberAgents);
-
-            } while (sequence[newAgent]);
-
-            sequence[newAgent] = true;
-
-            return newAgent;
-        }
-
-        private void ResetOrder()
-        {
-            // Resets to false every turn
-            for (int i = 0; i < sequence.Length; i++)
-            {
-                sequence[i] = false;
-            }
-        }
-
         // Loop
         public void GameLoop()
         {
             // Variables
             FoundAgentDetails target;
+            Position nullPosition = new Position(-1, -1);
             currentTurn = 1;
             game = true;
 
@@ -74,10 +45,10 @@ namespace TrabalhoPratico2
                 // Identify the number of turns
                 render.Renderer(board, $"Turn: {currentTurn}. Press Enter to continue.");
                 Console.ReadLine();
-                ResetOrder();
+                board.Shuffle();
 
                 // Loop of each agent
-                for (int a = 1; a <= numberAgents; a++)
+                for (int a = 0; a < numberAgents; a++)
                 {
                     game = board.WinChecker();
                     if (!game)
@@ -86,15 +57,16 @@ namespace TrabalhoPratico2
                             " humans...");
                         return;
                     }
+                    board.Enemy = nullPosition;
                     // Get the agent to move
-                    agentToMove = board.GetAgent(GetNextAgent());
+                    agentToMove = board.GetAgent(a);
+                    board.Playing = agentToMove.AgentPosition;
                     render.Renderer(board, $"Will be moved: {agentToMove.GetSymbol()}");
                     System.Threading.Thread.Sleep(2000);
 
                     // (Temporary) Case picked agent is human
                     if (agentToMove.ElementType != Type.Empty)
                     {
-                        board.Playing = agentToMove.AgentPosition;
                         // Find the closest target
                         target = agentToMove.FindNearAgent();
 
@@ -109,6 +81,7 @@ namespace TrabalhoPratico2
                             System.Threading.Thread.Sleep(2000);
                             // Move the picked agent
                             agentToMove.Move(target, render);
+                            board.AgentMoved(a);
                         }
                         // Post action
                         render.Renderer(board, $"Agent " +

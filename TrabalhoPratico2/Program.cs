@@ -10,15 +10,6 @@ namespace TrabalhoPratico2
             Params p = new Params();
             Game game;
 
-            // Check the correct parameters.
-            if (!p.ParseArgs(args))
-            {
-                Console.WriteLine("Invalid parameters. You must define, " +
-                    "at least, a number of Humans, Zombies, Columns, Lines " +
-                    "and Turns");
-                Environment.Exit(-1);
-            }
-
             // Call the game loop
             game = new Game(p);
             game.GameLoop();

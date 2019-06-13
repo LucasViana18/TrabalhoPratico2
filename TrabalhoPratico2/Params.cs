@@ -33,10 +33,10 @@ namespace TrabalhoPratico2
         // line. This is repeated for all arguments that are given and used to
         // create the struct. The method returns a new Params struct, using the
         //values taken from the args array.
-        public bool ParseArgs(string[] args)
+        public void ParseArgs(string[] args)
         {
 
-            if (true) // Debug
+            if (false) // Debug
             {
                 MaxX = 8;
                 MaxY = 8;
@@ -79,28 +79,41 @@ namespace TrabalhoPratico2
                     }
                 }
             }
+
             if (MaxX == default(int) || MaxY == default(int) ||
                 BotZ == default(int) || BotH == default(int) ||
                 MaxTurns == default(int))
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Parameters given were incomplete, " +
                     "shutting down.");
-                System.Environment.Exit(1);
+                Console.ForegroundColor = ConsoleColor.White;
+                Environment.Exit(1);
             }
 
-            if ((BotZ + BotH + UserH + UserZ) > 
+            if ((BotZ + BotH) > 
                 (Math.Round((double)(MaxX * MaxY) * 0.85)))
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"Total agents: " +
-                    $"{BotZ + BotH + UserH + UserZ}\nUsable Space: " +
+                    $"{BotZ + BotH}\nUsable Space: " +
                     $"{(Math.Round((double)(MaxX * MaxY) * 0.85))}");
                 Console.WriteLine("There are too many agents on the board.\n" +
                     "Please leave some room for the agents to move.\n" +
                     "(15% of the board positions should be empty)");
-                System.Environment.Exit(1);
+                Console.ForegroundColor = ConsoleColor.White;
+                Environment.Exit(1);
             }
-            return (BotZ != 0 && BotH != 0 && MaxX != 0 && MaxY != 0 && 
-                MaxTurns != 0);
+
+            if(UserH > BotH || UserZ > BotZ)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("The number of humans or zombies" +
+                    " controlled by the user exceeds the total number of" +
+                    " humans or zombies selected.");
+                Console.ForegroundColor = ConsoleColor.White;
+                Environment.Exit(1);
+            }
         }
     }
 }

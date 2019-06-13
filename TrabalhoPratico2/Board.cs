@@ -10,8 +10,8 @@ namespace TrabalhoPratico2
         public readonly Params boardParams;
         private GameElement[,] currentBoard;
         private List<Agent> agents;
+        private List<int> movedAgents;
         private Random rnd;
-        private Agent agent;
 
         public int NumberColumns { get; private set; }
         public int NumberRows { get; private set; }
@@ -28,6 +28,7 @@ namespace TrabalhoPratico2
             agents = new List<Agent>();
             Playing = new Position(-1, -1);
             Enemy = new Position(-1, -1);
+            movedAgents = new List<int>();
         }
 
         public void StartBoard()
@@ -44,6 +45,42 @@ namespace TrabalhoPratico2
             CreateHumans(ControlType.Automatic);
             CreateZombies(ControlType.Manual);
             CreateHumans(ControlType.Manual);
+        }
+
+        public void Shuffle()
+        {
+            int n;
+            Agent agentItem;
+
+            n = agents.Count;
+            for (int i = 0; i < n; i++)
+            {
+                int r = i + rnd.Next(n - i);
+                agentItem = agents[r];
+                agents[r] = agents[i];
+                agents[i] = agentItem;
+            }
+
+            movedAgents.Clear();
+        }
+
+        public void AgentMoved(int whatIndex)
+        {
+            movedAgents.Add(whatIndex);
+        }
+
+        public bool WasMoved(GameElement whatAgent)
+        {
+            Agent localAgent;
+            int indexAgent;
+
+            if (!(whatAgent is Agent))
+                return false;
+
+            localAgent = whatAgent as Agent;
+
+            indexAgent = agents.FindIndex(item => item.Equals(localAgent));
+            return movedAgents.Exists(item => item == indexAgent);
         }
 
         private Position FindFreeSpot()

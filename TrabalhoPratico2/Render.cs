@@ -30,9 +30,11 @@ namespace TrabalhoPratico2
                 {
                     item = board.GetElementInPosition(c, r);
                     if (c == board.Playing.X && r == board.Playing.Y)
-                        Console.ForegroundColor = ConsoleColor.Blue;
+                        Console.ForegroundColor = ConsoleColor.Yellow;
                     else if (c == board.Enemy.X && r == board.Enemy.Y)
                         Console.ForegroundColor = ConsoleColor.Red;
+                    else if (board.WasMoved(item))
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
                     else
                         Console.ForegroundColor = ConsoleColor.White;
 
