@@ -25,7 +25,7 @@ namespace TrabalhoPratico2
             render = new Render();
             rnd = new Random();
             gameParams = par;
-            numberAgents = par.BotH + par.BotZ ;
+            numberAgents = par.BotH + par.BotZ;
             sequence = new bool[numberAgents];
         }
 
@@ -89,7 +89,7 @@ namespace TrabalhoPratico2
                     // Get the agent to move
                     agentToMove = board.GetAgent(GetNextAgent());
                     render.Renderer(board, $"Will be moved: {agentToMove.GetSymbol()}");
-                    System.Threading.Thread.Sleep(1);
+                    System.Threading.Thread.Sleep(2000);
 
                     // (Temporary) Case picked agent is human
                     if (agentToMove.ElementType != Type.Empty)
@@ -106,7 +106,7 @@ namespace TrabalhoPratico2
                                 board.GetElementInPosition
                                 (target.AgentCoord.X, target.AgentCoord.Y).
                                 GetSymbol());
-                            System.Threading.Thread.Sleep(1);
+                            System.Threading.Thread.Sleep(2000);
                             // Move the picked agent
                             agentToMove.Move(target, render);
                         }
@@ -115,7 +115,7 @@ namespace TrabalhoPratico2
                             $"{agentToMove.GetSymbol()} " +
                             $"moved to: {agentToMove.lastMovement.X}, " +
                             $"{agentToMove.lastMovement.Y}\n");
-                        System.Threading.Thread.Sleep(1);
+                        System.Threading.Thread.Sleep(2000);
                     }
                 }
                 if (game && currentTurn == board.boardParams.MaxTurns)

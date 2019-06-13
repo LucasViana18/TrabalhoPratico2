@@ -12,7 +12,7 @@ namespace TrabalhoPratico2
         public Zombie
             (int startX, int startY, Params par, Board board, string agentID, ControlType control) :
             base(startX, startY, par, board, agentID, control)
-        { 
+        {
             this.elementType = Type.Zombie;
             this.target = Type.Human;
         }
@@ -36,14 +36,16 @@ namespace TrabalhoPratico2
 
             if (human.Found && agentBoard.GetElementType(human.AgentCoord.X, human.AgentCoord.Y) == Type.Human)  // Human  found
             {
-                if (Control == ControlType.Manual)
+                if (!HumanNear(human))
                 {
-                    lastMovement = ManualBehavior(render);
-                }
-                else if (!HumanNear(human))
-                {
-                    lastMovement = AutomaticBehaviour(human, true); // attract by the agent Human
-
+                    if (Control == ControlType.Manual)
+                    {
+                        lastMovement = ManualBehavior(render);
+                    }
+                    else
+                    {
+                        lastMovement = AutomaticBehaviour(human, true); // attract by the agent Human
+                    }
                     if (agentBoard.GetElementType(lastMovement.X, lastMovement.Y) == Type.Empty)
                     {
                         agentBoard.MoveAgent(this, lastMovement);
@@ -57,7 +59,7 @@ namespace TrabalhoPratico2
                     {
                         render.Renderer(agentBoard, "Press anykey to convert human");
                         Console.ReadKey();
-                    }                       
+                    }
                     agentBoard.ChangeAgentType(human.AgentCoord);
                 }
             }

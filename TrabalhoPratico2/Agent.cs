@@ -161,56 +161,13 @@ namespace TrabalhoPratico2
                 }
                 if (char.IsDigit(key))
                 {
-                    index = Convert.ToInt32(key);
+                    index = int.Parse(key.ToString());
                     if (index >= 1 && index <= 9 && index != 5)
                     {
                         return ApplyVector(vectorMove[index - 1]);
                     }
                 }
-
             } while (true);
-
-            //Position chosenPosition = this.AgentPosition;
-            //int direction;
-            //Console.Write("Please enter a move direction at numberpad: ");
-            //direction = Convert.ToInt32(Console.ReadKey());
-            //switch (direction)
-            //{
-            //    case 1:
-            //        chosenPosition.X--;
-            //        chosenPosition.Y++;
-            //        return ApplyVector(chosenPosition);
-            //    case 2:
-            //        chosenPosition.Y++;
-            //        return ApplyVector(chosenPosition);
-            //    case 3:
-            //        chosenPosition.X++;
-            //        chosenPosition.Y++;
-            //        return ApplyVector(chosenPosition);
-            //    case 4:
-            //        chosenPosition.X--;
-            //        return ApplyVector(chosenPosition);
-            //    case 5:
-            //        return ApplyVector(chosenPosition);
-            //    case 6:
-            //        chosenPosition.X++;
-            //        return ApplyVector(chosenPosition);
-            //    case 7:
-            //        chosenPosition.X--;
-            //        chosenPosition.Y--;
-            //        return ApplyVector(chosenPosition);
-            //    case 8:
-            //        chosenPosition.Y--;
-            //        return ApplyVector(chosenPosition);
-            //    case 9:
-            //        chosenPosition.X++;
-            //        chosenPosition.Y--;
-            //        return ApplyVector(chosenPosition);
-            //    default:
-            //        Console.WriteLine("Not a valid direction, try again!");
-            //        ManualBehavior(target);
-            //        return ApplyVector(chosenPosition);
-            //}
         }
 
         protected Position AutomaticBehaviour(FoundAgentDetails enemyAgent, bool attract)

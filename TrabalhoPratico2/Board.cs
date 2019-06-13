@@ -40,27 +40,10 @@ namespace TrabalhoPratico2
                 }
             }
 
-            CreateZombies();
-            CreateHumans();
-
-            for (int i = 0; i < boardParams.UserZ; i++)
-            {
-                Agent zombie;
-
-                zombie = agents.Find(x => x.ElementType == Type.Zombie 
-                && x.Control == ControlType.Automatic);
-
-                zombie.Control = ControlType.Manual;
-            }
-            for (int i = 0; i < boardParams.UserH; i++)
-            {
-                Agent human;
-
-                human = agents.Find(x => x.ElementType == Type.Human 
-                && x.Control == ControlType.Automatic);
-
-                human.Control = ControlType.Manual;
-            }
+            CreateZombies(ControlType.Automatic);
+            CreateHumans(ControlType.Automatic);
+            CreateZombies(ControlType.Manual);
+            CreateHumans(ControlType.Manual);
         }
 
         private Position FindFreeSpot()
@@ -76,34 +59,36 @@ namespace TrabalhoPratico2
             return new Position(localCol, localRow);
         }
 
-        private void CreateZombies()
+        private void CreateZombies(ControlType control)
         {
             Position localPosition;
             Zombie localZombie;
-
-            for (int i = 0; i < boardParams.BotZ; i++)
+            int nZombies;
+            nZombies = control == ControlType.Automatic ? boardParams.BotZ - boardParams.UserZ : boardParams.UserZ;
+            for (int i = 0; i < nZombies; i++)
             {
                 localPosition = FindFreeSpot();
 
                 localZombie = new Zombie(localPosition.X, localPosition.Y,
-                    boardParams, this, NewAgentId(), ControlType.Automatic);
+                    boardParams, this, NewAgentId(), control);
                 agents.Add(localZombie);
                 currentBoard[localPosition.X, localPosition.Y] = localZombie;
             }
 
         }
 
-        private void CreateHumans()
+        private void CreateHumans(ControlType control)
         {
             Position localPosition;
             Human localHuman;
-
-            for (int i = 0; i < boardParams.BotH; i++)
+            int nHumans;
+            nHumans = control == ControlType.Automatic ? boardParams.BotH - boardParams.UserH : boardParams.UserH;
+            for (int i = 0; i < nHumans; i++)
             {
                 localPosition = FindFreeSpot();
 
                 localHuman = new Human(localPosition.X, localPosition.Y,
-                    boardParams, this, NewAgentId(), ControlType.Automatic);
+                    boardParams, this, NewAgentId(), control);
                 agents.Add(localHuman);
                 currentBoard[localPosition.X, localPosition.Y] = localHuman;
             }
