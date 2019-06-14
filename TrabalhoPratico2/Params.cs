@@ -6,6 +6,7 @@ namespace TrabalhoPratico2
 {
     public struct Params
     {
+        // Properties
         public int MaxTurns { get; private set; }
         public int BotZ { get; private set; }
         public int BotH { get; private set; }
@@ -13,6 +14,8 @@ namespace TrabalhoPratico2
         public int UserH { get; private set; }
         public int MaxX { get; private set; }
         public int MaxY { get; private set; }
+
+        // Methods
 
         // ParseArgs method takes the array of strings args, which is passed to
         // the Main() from the command line.It's strings are analyzed through
@@ -131,6 +134,8 @@ namespace TrabalhoPratico2
                     }
                 }
             }
+
+            // Rules limited conditions
 
             if (MaxX == default(int) || MaxY == default(int) ||
                 BotZ == default(int) || BotH == default(int) ||

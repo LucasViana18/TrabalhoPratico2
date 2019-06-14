@@ -6,13 +6,19 @@ namespace TrabalhoPratico2
     {
         static void Main(string[] args)
         {
-            Program Prog = new Program();
-            Params p = new Params();
+            // Local variables
+            Program Prog;
+            Params p;
             Game game;
 
+            // Instances
+            Prog = new Program();
+            p = new Params();
+
+            // Call ParseArgs method
             p.ParseArgs(args);
 
-            // Call the game loop
+            // Instantiate and call the game loop
             game = new Game(p);
             game.GameLoop();
 

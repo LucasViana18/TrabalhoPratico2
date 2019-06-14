@@ -6,11 +6,12 @@ namespace TrabalhoPratico2
 {
     public class Render
     {
-        // Variables
+        // Instance variables
         private string message;
         private GameElement item;
 
-        //Methods
+        // Methods
+
         public void Renderer(Board board, string msg)
         {
             if (msg != "")
@@ -29,10 +30,13 @@ namespace TrabalhoPratico2
                 for (int c = 0; c < board.NumberColumns; c++)
                 {
                     item = board.GetElementInPosition(c, r);
+                    // Selected agent is playing
                     if (c == board.Playing.X && r == board.Playing.Y)
                         Console.ForegroundColor = ConsoleColor.Yellow;
+                    // Enemy of the selected agent
                     else if (c == board.Enemy.X && r == board.Enemy.Y)
                         Console.ForegroundColor = ConsoleColor.Red;
+                    // If it was moved
                     else if (board.WasMoved(item))
                         Console.ForegroundColor = ConsoleColor.DarkGray;
                     else

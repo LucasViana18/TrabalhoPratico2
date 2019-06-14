@@ -26,10 +26,11 @@ namespace TrabalhoPratico2
         }
 
         // Methods
+
         // Loop
         public void GameLoop()
         {
-            // Variables
+            // Local variables
             FoundAgentDetails target;
             Position nullPosition = new Position(-1, -1);
             currentTurn = 1;
@@ -46,12 +47,14 @@ namespace TrabalhoPratico2
                 render.Renderer(board, $"Turn: {currentTurn}. " +
                     $"Press Enter to continue.");
                 Console.ReadLine();
+                // Shuffle the list of agents every turn
                 board.Shuffle();
 
                 // Loop of each agent
                 for (int a = 0; a < numberAgents; a++)
                 {
                     game = board.WinChecker();
+                    // Zombies win
                     if (!game)
                     {
                         Console.WriteLine("The horde of zombies overcame the"+
@@ -62,9 +65,10 @@ namespace TrabalhoPratico2
                     // Get the agent to move
                     agentToMove = board.GetAgent(a);
                     board.Playing = agentToMove.AgentPosition;
+
                     render.Renderer(board, $"Will be moved: " +
                         $"{agentToMove.GetSymbol()}");
-                    System.Threading.Thread.Sleep(2000);
+                    System.Threading.Thread.Sleep(1500);
 
                     // (Temporary) Case picked agent is human
                     if (agentToMove.ElementType != Type.Empty)
@@ -80,7 +84,7 @@ namespace TrabalhoPratico2
                                 board.GetElementInPosition
                                 (target.AgentCoord.X, target.AgentCoord.Y).
                                 GetSymbol());
-                            System.Threading.Thread.Sleep(2000);
+                            System.Threading.Thread.Sleep(1500);
                             // Move the picked agent
                             agentToMove.Move(target, render);
                             board.AgentMoved(a);
@@ -88,11 +92,12 @@ namespace TrabalhoPratico2
                         // Post action
                         render.Renderer(board, $"Agent " +
                             $"{agentToMove.GetSymbol()} " +
-                            $"moved to: {agentToMove.lastMovement.X}, " +
-                            $"{agentToMove.lastMovement.Y}\n");
-                        System.Threading.Thread.Sleep(2000);
+                            $"moved to: {agentToMove.LastMovement.X}, " +
+                            $"{agentToMove.LastMovement.Y}\n");
+                        System.Threading.Thread.Sleep(1500);
                     }
                 }
+                // Humans win
                 if (game && currentTurn == gameParams.MaxTurns)
                 {
                     Console.WriteLine("The humans have escaped the horde of" +
