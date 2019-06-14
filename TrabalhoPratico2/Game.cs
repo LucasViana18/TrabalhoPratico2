@@ -43,7 +43,8 @@ namespace TrabalhoPratico2
             {
                 if (!game) return;
                 // Identify the number of turns
-                render.Renderer(board, $"Turn: {currentTurn}. Press Enter to continue.");
+                render.Renderer(board, $"Turn: {currentTurn}. " +
+                    $"Press Enter to continue.");
                 Console.ReadLine();
                 board.Shuffle();
 
@@ -53,7 +54,7 @@ namespace TrabalhoPratico2
                     game = board.WinChecker();
                     if (!game)
                     {
-                        Console.WriteLine("The horde of zombies overcame the" +
+                        Console.WriteLine("The horde of zombies overcame the"+
                             " humans...");
                         return;
                     }
@@ -61,7 +62,8 @@ namespace TrabalhoPratico2
                     // Get the agent to move
                     agentToMove = board.GetAgent(a);
                     board.Playing = agentToMove.AgentPosition;
-                    render.Renderer(board, $"Will be moved: {agentToMove.GetSymbol()}");
+                    render.Renderer(board, $"Will be moved: " +
+                        $"{agentToMove.GetSymbol()}");
                     System.Threading.Thread.Sleep(2000);
 
                     // (Temporary) Case picked agent is human

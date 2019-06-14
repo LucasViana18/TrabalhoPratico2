@@ -31,7 +31,8 @@ namespace TrabalhoPratico2
 
         // Constructor
         public Agent
-            (int startX, int startY, Params par, Board board, string agentID, ControlType control) :
+            (int startX, int startY, Params par, Board board, string agentID,
+            ControlType control) :
             base(startX, startY)
         {
             vectorMove = new List<Position>();
@@ -121,7 +122,8 @@ namespace TrabalhoPratico2
 
         public FoundAgentDetails FindNearAgent()
         {
-            FoundAgentDetails toReturn = new FoundAgentDetails(false, new Position(0, 0), new Position(0, 0));
+            FoundAgentDetails toReturn = new FoundAgentDetails
+                (false, new Position(0, 0), new Position(0, 0));
             float colLimit = agentBoard.NumberColumns / 2;
 
             for (int r = 1; r <= Math.Round(colLimit); r++)
@@ -130,19 +132,27 @@ namespace TrabalhoPratico2
                 {
                     for (int vy = r * -1; vy <= r; vy++)
                     {
-                        toReturn.AgentCoord = ApplyVector(new Position(vx, vy));
+                        toReturn.AgentCoord = 
+                            ApplyVector(new Position(vx, vy));
 
-                        if (agentBoard.GetElementType(toReturn.AgentCoord.X, toReturn.AgentCoord.Y) == target)
+                        if (agentBoard.GetElementType
+                            (toReturn.AgentCoord.X, toReturn.AgentCoord.Y) 
+                            == target)
                         {
-                            toReturn.AgentReference.X = this.currentPosition.X + vx;
-                            toReturn.AgentReference.Y = this.currentPosition.Y + vy;
+                            toReturn.AgentReference.X = 
+                                this.currentPosition.X + vx;
+
+                            toReturn.AgentReference.Y = 
+                                this.currentPosition.Y + vy;
+
                             toReturn.Found = true;
                             return toReturn;
                         }
                     }
                 }
             }
-            // if the AgentType is not found, return a position (-100, -100) as a flag error
+            // if the AgentType is not found, return a position (-100, -100)
+            // as a flag error
             return toReturn;
         }
 
@@ -150,7 +160,8 @@ namespace TrabalhoPratico2
         {
             int index;
             char key;
-            render.Renderer(agentBoard, $"Please enter a move direction for {GetSymbol()} at numberpad: ");
+            render.Renderer(agentBoard, $"Please enter a move direction for "+
+                $"{GetSymbol()} at numberpad: ");
             do
             {
                 key = Console.ReadKey().KeyChar;
@@ -170,7 +181,8 @@ namespace TrabalhoPratico2
             } while (true);
         }
 
-        protected Position AutomaticBehaviour(FoundAgentDetails enemyAgent, bool attract)
+        protected Position AutomaticBehaviour
+            (FoundAgentDetails enemyAgent, bool attract)
         {
             Position chosenPosition;
             List<Position> toMove = new List<Position>();

@@ -101,7 +101,8 @@ namespace TrabalhoPratico2
             Position localPosition;
             Zombie localZombie;
             int nZombies;
-            nZombies = control == ControlType.Automatic ? boardParams.BotZ - boardParams.UserZ : boardParams.UserZ;
+            nZombies = control == ControlType.Automatic ? 
+                boardParams.BotZ - boardParams.UserZ : boardParams.UserZ;
             for (int i = 0; i < nZombies; i++)
             {
                 localPosition = FindFreeSpot();
@@ -119,7 +120,8 @@ namespace TrabalhoPratico2
             Position localPosition;
             Human localHuman;
             int nHumans;
-            nHumans = control == ControlType.Automatic ? boardParams.BotH - boardParams.UserH : boardParams.UserH;
+            nHumans = control == ControlType.Automatic ? 
+                boardParams.BotH - boardParams.UserH : boardParams.UserH;
             for (int i = 0; i < nHumans; i++)
             {
                 localPosition = FindFreeSpot();
@@ -186,12 +188,16 @@ namespace TrabalhoPratico2
 
             whatAgent = GetElementInPosition(posAgent.X, posAgent.Y) as Agent;
 
-            localAgent = new Zombie(whatAgent.AgentPosition.X, whatAgent.AgentPosition.Y, boardParams, this, whatAgent.AgentID, ControlType.Automatic);
+            localAgent = new Zombie(whatAgent.AgentPosition.X, 
+                whatAgent.AgentPosition.Y, boardParams, this, 
+                whatAgent.AgentID, ControlType.Automatic);
 
             // copy the type of movement (auto or manual) to the new object
             agents.RemoveAll(item => item.AgentID == whatAgent.AgentID);
             agents.Add(localAgent);
-            currentBoard[localAgent.AgentPosition.X, localAgent.AgentPosition.Y] = localAgent;
+            currentBoard
+                [localAgent.AgentPosition.X, localAgent.AgentPosition.Y] 
+                = localAgent;
         }
 
         public string NewAgentId()

@@ -11,7 +11,8 @@ namespace TrabalhoPratico2
 
         // Constructor
         public Human
-            (int startX, int startY, Params par, Board board, string agentID, ControlType control) :
+            (int startX, int startY, Params par, Board board, string agentID, 
+            ControlType control) :
             base(startX, startY, par, board, agentID, control)
         {
             this.elementType = Type.Human;
@@ -45,7 +46,8 @@ namespace TrabalhoPratico2
 
         public override string GetSymbol()
         {
-            return Control == ControlType.Automatic ? "h" + AgentID : "H" + AgentID;
+            return Control == ControlType.Automatic ? "h" + AgentID :
+                "H" + AgentID;
         }
     }
 }
