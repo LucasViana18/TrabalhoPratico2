@@ -89,6 +89,7 @@ namespace TrabalhoPratico2
                             agentToMove.Move(target, render);
                             board.AgentMoved(a);
                         }
+
                         // Post action
                         render.Renderer(board, $"Agent " +
                             $"{agentToMove.GetSymbol()} " +

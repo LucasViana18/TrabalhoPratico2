@@ -12,8 +12,8 @@ namespace TrabalhoPratico2
             ControlType control) :
             base(startX, startY, par, board, agentID, control)
         {
-            this.elementType = Type.Zombie;
-            this.target = Type.Human;
+            elementType = Type.Zombie;
+            target = Type.Human;
         }
 
         // Methods
@@ -22,9 +22,9 @@ namespace TrabalhoPratico2
         {
             // Detects if there is a human near in a radius of 1
             int difX = Math.Abs
-                (this.currentPosition.X - human.AgentReference.X);
+                (currentPosition.X - human.AgentReference.X);
             int difY = Math.Abs
-                (this.currentPosition.Y - human.AgentReference.Y);
+                (currentPosition.Y - human.AgentReference.Y);
 
             int toCompare = Math.Max(difX, difY);
 
@@ -69,6 +69,10 @@ namespace TrabalhoPratico2
                         Console.ReadKey();
                     }
                     // Convert the human
+                    render.Renderer(agentBoard, "The zombie " + GetSymbol() +
+                        " converted " + agentBoard.GetElementInPosition
+                        (human.AgentCoord.X, human.AgentCoord.Y).GetSymbol() 
+                        + "!");
                     agentBoard.ChangeAgentType(human.AgentCoord);
                 }
             }

@@ -7,12 +7,12 @@ namespace TrabalhoPratico2
         static void Main(string[] args)
         {
             // Local variables
-            Program Prog;
+            Program prog;
             Params p;
             Game game;
 
             // Instances
-            Prog = new Program();
+            prog = new Program();
             p = new Params();
 
             // Call ParseArgs method

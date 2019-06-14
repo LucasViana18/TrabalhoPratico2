@@ -28,7 +28,7 @@ namespace TrabalhoPratico2
         public void ParseArgs(string[] args)
         {
 
-            if (false) // Debug
+            if (true) // Debug
             {
                 MaxX = 8;
                 MaxY = 8;
