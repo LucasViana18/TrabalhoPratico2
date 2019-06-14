@@ -10,6 +10,8 @@ namespace TrabalhoPratico2
             Params p = new Params();
             Game game;
 
+            p.ParseArgs(args);
+
             // Call the game loop
             game = new Game(p);
             game.GameLoop();

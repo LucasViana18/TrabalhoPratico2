@@ -91,7 +91,7 @@ namespace TrabalhoPratico2
                         System.Threading.Thread.Sleep(2000);
                     }
                 }
-                if (game && currentTurn == board.boardParams.MaxTurns)
+                if (game && currentTurn == gameParams.MaxTurns)
                 {
                     Console.WriteLine("The humans have escaped the horde of" +
                         " zombies!");
