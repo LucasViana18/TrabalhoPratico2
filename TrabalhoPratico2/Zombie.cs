@@ -6,26 +6,26 @@ namespace TrabalhoPratico2
 {
     public class Zombie : Agent
     {
-        // Variables/Properties
-
         // Constructor
         public Zombie
-            (int startX, int startY, Params par, Board board, string agentID, ControlType control) :
+            (int startX, int startY, Params par, Board board, string agentID, 
+            ControlType control) :
             base(startX, startY, par, board, agentID, control)
         {
-            this.elementType = Type.Zombie;
-            this.target = Type.Human;
+            elementType = Type.Zombie;
+            target = Type.Human;
         }
 
         // Methods
+
         public bool HumanNear(FoundAgentDetails human)
         {
-            // if the zombie detects a human in radius of 1, he attacks,
-            // turning him into a zombie (maybe delete said player and replace
-            // him with a zombie in the same position)
+            // Detects if there is a human near in a radius of 1
+            int difX = Math.Abs
+                (currentPosition.X - human.AgentReference.X);
+            int difY = Math.Abs
+                (currentPosition.Y - human.AgentReference.Y);
 
-            int difX = Math.Abs(this.currentPosition.X - human.AgentReference.X);
-            int difY = Math.Abs(this.currentPosition.Y - human.AgentReference.Y);
             int toCompare = Math.Max(difX, difY);
 
             return (toCompare == 1);
@@ -33,33 +33,46 @@ namespace TrabalhoPratico2
 
         public override void Move(FoundAgentDetails human, Render render)
         {
-
-            if (human.Found && agentBoard.GetElementType(human.AgentCoord.X, human.AgentCoord.Y) == Type.Human)  // Human  found
+            // Human found
+            if (human.Found && agentBoard.GetElementType
+                (human.AgentCoord.X, human.AgentCoord.Y) == Type.Human)  
             {
+                // If it isn't near
                 if (!HumanNear(human))
                 {
+                    // Check if the control is manual or automatic
                     if (Control == ControlType.Manual)
                     {
-                        lastMovement = ManualBehavior(render);
+                        LastMovement = ManualBehavior(render);
                     }
                     else
                     {
-                        lastMovement = AutomaticBehaviour(human, true); // attract by the agent Human
+                        LastMovement = AutomaticBehaviour(human, true);
                     }
-                    if (agentBoard.GetElementType(lastMovement.X, lastMovement.Y) == Type.Empty)
+                    // If the spot to move is free
+                    if (agentBoard.GetElementType
+                        (LastMovement.X, LastMovement.Y) == Type.Empty)
                     {
-                        agentBoard.MoveAgent(this, lastMovement);
-                        currentPosition.X = lastMovement.X;
-                        currentPosition.Y = lastMovement.Y;
+                        agentBoard.MoveAgent(this, LastMovement);
+                        currentPosition.X = LastMovement.X;
+                        currentPosition.Y = LastMovement.Y;
                     }
                 }
+                // If it's near
                 else
                 {
+                    // Check if the control is manual
                     if (Control == ControlType.Manual)
                     {
-                        render.Renderer(agentBoard, "Press anykey to convert human");
+                        render.Renderer
+                            (agentBoard, "Press anykey to convert human");
                         Console.ReadKey();
                     }
+                    // Convert the human
+                    render.Renderer(agentBoard, "The zombie " + GetSymbol() +
+                        " converted " + agentBoard.GetElementInPosition
+                        (human.AgentCoord.X, human.AgentCoord.Y).GetSymbol() 
+                        + "!");
                     agentBoard.ChangeAgentType(human.AgentCoord);
                 }
             }
@@ -67,7 +80,8 @@ namespace TrabalhoPratico2
 
         public override string GetSymbol()
         {
-            return Control == ControlType.Automatic ? "z" + AgentID : "Z" + AgentID;
+            return Control == ControlType.Automatic ? "z" + AgentID :
+                "Z" + AgentID;
         }
     }
 }

@@ -6,6 +6,7 @@ namespace TrabalhoPratico2
 {
     public struct Params
     {
+        // Properties
         public int MaxTurns { get; private set; }
         public int BotZ { get; private set; }
         public int BotH { get; private set; }
@@ -14,16 +15,7 @@ namespace TrabalhoPratico2
         public int MaxX { get; private set; }
         public int MaxY { get; private set; }
 
-        public Params(int x, int y, int z, int h, int Z, int H, int t)
-        {
-            MaxX = x;
-            MaxY = y;
-            BotZ = z;
-            BotH = h;
-            UserZ = Z;
-            UserH = H;
-            MaxTurns = t;
-        }
+        // Methods
 
         // ParseArgs method takes the array of strings args, which is passed to
         // the Main() from the command line.It's strings are analyzed through
@@ -32,11 +24,11 @@ namespace TrabalhoPratico2
         // the array (parsed to int), which is x's value given in the command
         // line. This is repeated for all arguments that are given and used to
         // create the struct. The method returns a new Params struct, using the
-        //values taken from the args array.
+        // values taken from the args array.
         public void ParseArgs(string[] args)
         {
 
-            if (false) // Debug
+            if (true) // Debug
             {
                 MaxX = 8;
                 MaxY = 8;
@@ -143,6 +135,8 @@ namespace TrabalhoPratico2
                 }
             }
 
+            // Rules limited conditions
+
             if (MaxX == default(int) || MaxY == default(int) ||
                 BotZ == default(int) || BotH == default(int) ||
                 MaxTurns == default(int))
@@ -163,7 +157,7 @@ namespace TrabalhoPratico2
                 Console.WriteLine($"Total agents: " +
                     $"{BotZ + BotH}\nUsable Space: " +
                     $"{(Math.Round((double)(MaxX * MaxY) * 0.85))}");
-                Console.WriteLine("There are too many agents on the board.\n" +
+                Console.WriteLine("There are too many agents on the board.\n"+
                     "Please leave some room for the agents to move.\n" +
                     "(15% of the board positions should be empty)");
                 Console.ForegroundColor = ConsoleColor.White;

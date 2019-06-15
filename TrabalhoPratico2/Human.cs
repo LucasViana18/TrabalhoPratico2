@@ -7,16 +7,17 @@ namespace TrabalhoPratico2
 {
     class Human : Agent
     {
-        // Variables/Properties
-
         // Constructor
         public Human
-            (int startX, int startY, Params par, Board board, string agentID, ControlType control) :
+            (int startX, int startY, Params par, Board board, string agentID, 
+            ControlType control) :
             base(startX, startY, par, board, agentID, control)
         {
-            this.elementType = Type.Human;
-            this.target = Type.Zombie;
+            elementType = Type.Human;
+            target = Type.Zombie;
         }
+
+        // Methods
 
         public override void Move(FoundAgentDetails zombie, Render render)
         {
@@ -24,28 +25,31 @@ namespace TrabalhoPratico2
             if (zombie.Found && agentBoard.GetElementType
                 (zombie.AgentCoord.X, zombie.AgentCoord.Y) == Type.Zombie)
             {
+                // If the control is manual or automatic
                 if (Control == ControlType.Manual)
                 {
-                    lastMovement = ManualBehavior(render);
+                    LastMovement = ManualBehavior(render);
                 }
                 else
                 {
-                    lastMovement = AutomaticBehaviour(zombie, false);
+                    LastMovement = AutomaticBehaviour(zombie, false);
                 }
 
-                if (agentBoard.GetElementType(lastMovement.X, lastMovement.Y)
+                // If the spot to move is free
+                if (agentBoard.GetElementType(LastMovement.X, LastMovement.Y)
                     == Type.Empty)
                 {
-                    agentBoard.MoveAgent(this, lastMovement);
-                    currentPosition.X = lastMovement.X;
-                    currentPosition.Y = lastMovement.Y;
+                    agentBoard.MoveAgent(this, LastMovement);
+                    currentPosition.X = LastMovement.X;
+                    currentPosition.Y = LastMovement.Y;
                 }
             }
         }
 
         public override string GetSymbol()
         {
-            return Control == ControlType.Automatic ? "h" + AgentID : "H" + AgentID;
+            return Control == ControlType.Automatic ? "h" + AgentID :
+                "H" + AgentID;
         }
     }
 }

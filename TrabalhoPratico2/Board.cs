@@ -6,9 +6,9 @@ namespace TrabalhoPratico2
 {
     public class Board
     {
-        // Variables and Properties
+        // Instance variables and properties
         public readonly Params boardParams;
-        private GameElement[,] currentBoard;
+        private readonly GameElement[,] currentBoard;
         private List<Agent> agents;
         private List<int> movedAgents;
         private Random rnd;
@@ -18,6 +18,7 @@ namespace TrabalhoPratico2
         public Position Playing { get; set; }
         public Position Enemy { get; set; }
 
+        // Constructor
         public Board(Params p)
         {
             rnd = new Random();
@@ -31,8 +32,11 @@ namespace TrabalhoPratico2
             movedAgents = new List<int>();
         }
 
+        // Methods
+
         public void StartBoard()
         {
+            // Fill the board with GameElement instances on game start
             for (int r = 0; r < NumberRows; r++)
             {
                 for (int c = 0; c < NumberColumns; c++)
@@ -40,15 +44,17 @@ namespace TrabalhoPratico2
                     currentBoard[c, r] = new GameElement(c, r);
                 }
             }
-
+            // Create automatic agents
             CreateZombies(ControlType.Automatic);
             CreateHumans(ControlType.Automatic);
+            // Create manual agents
             CreateZombies(ControlType.Manual);
             CreateHumans(ControlType.Manual);
         }
 
         public void Shuffle()
         {
+            // Local variables
             int n;
             Agent agentItem;
 
@@ -61,31 +67,41 @@ namespace TrabalhoPratico2
                 agents[i] = agentItem;
             }
 
+            // Clear the moved agents list
             movedAgents.Clear();
         }
 
         public void AgentMoved(int whatIndex)
         {
+            // Add moved agents to the list
             movedAgents.Add(whatIndex);
         }
 
         public bool WasMoved(GameElement whatAgent)
         {
+            // Local variables
             Agent localAgent;
             int indexAgent;
 
+            // Case the selected element is not an agent, return false
             if (!(whatAgent is Agent))
                 return false;
 
+            // Cast of variable
             localAgent = whatAgent as Agent;
-
+            // Pick the index of the moved agent
             indexAgent = agents.FindIndex(item => item.Equals(localAgent));
+            // Return a condition if exists on the moved list the agent with
+            // the certain index
             return movedAgents.Exists(item => item == indexAgent);
         }
 
         private Position FindFreeSpot()
         {
+            // Local variables
             int localCol, localRow;
+
+            // Loop that goes through every spot to verify if its free
             do
             {
                 localCol = rnd.Next(0, NumberColumns - 1);
@@ -98,14 +114,20 @@ namespace TrabalhoPratico2
 
         private void CreateZombies(ControlType control)
         {
+            // Local variables
             Position localPosition;
             Zombie localZombie;
             int nZombies;
-            nZombies = control == ControlType.Automatic ? boardParams.BotZ - boardParams.UserZ : boardParams.UserZ;
+
+            // Verify if the number of zombies created are automatic or manual
+            nZombies = control == ControlType.Automatic ? 
+                boardParams.BotZ - boardParams.UserZ : boardParams.UserZ;
+
             for (int i = 0; i < nZombies; i++)
             {
+                // Local of the new spawn position
                 localPosition = FindFreeSpot();
-
+                // Create/Instantiate a zombie
                 localZombie = new Zombie(localPosition.X, localPosition.Y,
                     boardParams, this, NewAgentId(), control);
                 agents.Add(localZombie);
@@ -116,14 +138,20 @@ namespace TrabalhoPratico2
 
         private void CreateHumans(ControlType control)
         {
+            // Local variables
             Position localPosition;
             Human localHuman;
             int nHumans;
-            nHumans = control == ControlType.Automatic ? boardParams.BotH - boardParams.UserH : boardParams.UserH;
+
+            // Verify if the number of humans created are automatic or manual
+            nHumans = control == ControlType.Automatic ? 
+                boardParams.BotH - boardParams.UserH : boardParams.UserH;
+
             for (int i = 0; i < nHumans; i++)
             {
+                // Local of the new spawn position
                 localPosition = FindFreeSpot();
-
+                // Create/Instantiate a human
                 localHuman = new Human(localPosition.X, localPosition.Y,
                     boardParams, this, NewAgentId(), control);
                 agents.Add(localHuman);
@@ -144,7 +172,10 @@ namespace TrabalhoPratico2
 
         public Position ToroidalConvert(int col, int row)
         {
-            Position toReturn = new Position(col, row);
+            // Local variable
+            Position toReturn;
+
+            toReturn = new Position(col, row);
 
             toReturn.X = (toReturn.X >= NumberColumns) ?
                 toReturn.X - NumberColumns : toReturn.X;
@@ -160,6 +191,7 @@ namespace TrabalhoPratico2
 
         public Agent GetAgent(int index)
         {
+            // Safety measure
             if (index < 0 || index > agents.Count - 1)
             {
                 return agents[0];
@@ -172,8 +204,10 @@ namespace TrabalhoPratico2
 
         public void MoveAgent(Agent whatAgent, Position newPosition)
         {
+            // Local variable
             Position currentAgentPos;
 
+            // Update of the board for the agent move
             currentAgentPos = whatAgent.AgentPosition;
             currentBoard[currentAgentPos.X, currentAgentPos.Y] =
                 new GameElement(currentAgentPos.X, currentAgentPos.Y);
@@ -182,28 +216,39 @@ namespace TrabalhoPratico2
 
         public void ChangeAgentType(Position posAgent)
         {
+            // Local variable
             Agent localAgent, whatAgent;
 
+            // Cast of the variable
             whatAgent = GetElementInPosition(posAgent.X, posAgent.Y) as Agent;
 
-            localAgent = new Zombie(whatAgent.AgentPosition.X, whatAgent.AgentPosition.Y, boardParams, this, whatAgent.AgentID, ControlType.Automatic);
+            localAgent = new Zombie(whatAgent.AgentPosition.X, 
+                whatAgent.AgentPosition.Y, boardParams, this, 
+                whatAgent.AgentID, ControlType.Automatic);
 
-            // copy the type of movement (auto or manual) to the new object
+            // Remove the last agent(human) and adds a new agent(zombie) but
+            // keeps the ID
             agents.RemoveAll(item => item.AgentID == whatAgent.AgentID);
             agents.Add(localAgent);
-            currentBoard[localAgent.AgentPosition.X, localAgent.AgentPosition.Y] = localAgent;
+            currentBoard
+                [localAgent.AgentPosition.X, localAgent.AgentPosition.Y] 
+                = localAgent;
         }
 
         public string NewAgentId()
         {
+            // Local variable
             int id;
             string idHex;
+
+            // Sorts out a different hexadecimal ID
             do
             {
                 id = rnd.Next(1, 255);
                 idHex = id.ToString("X");
                 idHex = idHex.Length == 1 ? "0" + idHex : idHex;
             } while (agents.Exists(item => item.AgentID == idHex));
+
             return idHex;
         }
 
@@ -213,6 +258,7 @@ namespace TrabalhoPratico2
             {
                 if (agent is Human h) return true;
             }
+
             return false;
         }
     }

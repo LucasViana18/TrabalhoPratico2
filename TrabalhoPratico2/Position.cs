@@ -6,7 +6,7 @@ namespace TrabalhoPratico2
 {
     public class Position
     {
-        // Posição (x, y)
+        // Instance properties
         public int X { get; set; }
         public int Y { get; set; }
 

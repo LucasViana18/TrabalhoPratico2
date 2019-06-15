@@ -6,11 +6,14 @@ namespace TrabalhoPratico2
 {
     public class FoundAgentDetails
     {
+        // Instance properties
         public bool Found { get; set; }
         public Position AgentCoord { get; set; }
         public Position AgentReference { get; set; }
 
-        public FoundAgentDetails(bool found, Position coord, Position reference)
+        // Constructor
+        public FoundAgentDetails
+            (bool found, Position coord, Position reference)
         {
             Found = found;
             AgentCoord = new Position(0, 0);

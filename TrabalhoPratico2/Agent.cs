@@ -7,7 +7,7 @@ namespace TrabalhoPratico2
 {
     public class Agent : GameElement
     {
-        // Variables and Properties
+        // Instance variables and properties
         protected Params agentPar;
         protected Board agentBoard;
         protected Type target;
@@ -26,12 +26,13 @@ namespace TrabalhoPratico2
 
         public string AgentID { get; }
         public Position AgentPosition { get { return currentPosition; } }
-        public Position lastMovement { get; protected set; }
+        public Position LastMovement { get; protected set; }
         public ControlType Control { get; set; }
 
         // Constructor
         public Agent
-            (int startX, int startY, Params par, Board board, string agentID, ControlType control) :
+            (int startX, int startY, Params par, Board board, string agentID,
+            ControlType control) :
             base(startX, startY)
         {
             vectorMove = new List<Position>();
@@ -46,7 +47,7 @@ namespace TrabalhoPratico2
             vectorBottomRight = new List<Position>();
 
             chosenMove = new Random();
-            lastMovement = new Position(-1, -1);
+            LastMovement = new Position(-1, -1);
             target = Type.Empty;
 
             agentPar = par;
@@ -56,6 +57,8 @@ namespace TrabalhoPratico2
             SetVectors();
 
         }
+
+        // Methods
 
         private void SetVectors()
         {
@@ -114,51 +117,75 @@ namespace TrabalhoPratico2
         {
             int localCol, localRow;
 
-            localCol = this.currentPosition.X + vector.X;
-            localRow = this.currentPosition.Y + vector.Y;
+            localCol = currentPosition.X + vector.X;
+            localRow = currentPosition.Y + vector.Y;
+
             return agentBoard.ToroidalConvert(localCol, localRow);
         }
 
         public FoundAgentDetails FindNearAgent()
         {
-            FoundAgentDetails toReturn = new FoundAgentDetails(false, new Position(0, 0), new Position(0, 0));
+            FoundAgentDetails toReturn = new FoundAgentDetails
+                (false, new Position(-1, -1), new Position(-1, -1));
+            // Max search radius
             float colLimit = agentBoard.NumberColumns / 2;
 
+            // Radius
             for (int r = 1; r <= Math.Round(colLimit); r++)
             {
+                // Vector x
                 for (int vx = r * -1; vx <= r; vx++)
                 {
+                    // Vector y
                     for (int vy = r * -1; vy <= r; vy++)
                     {
-                        toReturn.AgentCoord = ApplyVector(new Position(vx, vy));
+                        toReturn.AgentCoord = 
+                            ApplyVector(new Position(vx, vy));
 
-                        if (agentBoard.GetElementType(toReturn.AgentCoord.X, toReturn.AgentCoord.Y) == target)
+                        // Case it finds the target
+                        if (agentBoard.GetElementType
+                            (toReturn.AgentCoord.X, toReturn.AgentCoord.Y) 
+                            == target)
                         {
-                            toReturn.AgentReference.X = this.currentPosition.X + vx;
-                            toReturn.AgentReference.Y = this.currentPosition.Y + vy;
+                            toReturn.AgentReference.X = 
+                                currentPosition.X + vx;
+
+                            toReturn.AgentReference.Y = 
+                                currentPosition.Y + vy;
+
                             toReturn.Found = true;
+
                             return toReturn;
                         }
                     }
                 }
             }
-            // if the AgentType is not found, return a position (-100, -100) as a flag error
+            // if the AgentType is not found, return a position (-1, -1)
+            // as a flag error
             return toReturn;
         }
 
         public Position ManualBehavior(Render render)
         {
+            // Local variables
             int index;
             char key;
-            render.Renderer(agentBoard, $"Please enter a move direction for {GetSymbol()} at numberpad: ");
+
+            // Show message for input
+            render.Renderer(agentBoard, $"Please enter a move direction for "+
+                $"{GetSymbol()} at numberpad: ");
+
             do
             {
                 key = Console.ReadKey().KeyChar;
-                if (key == 'q')
+
+                // Quit the game
+                if (key == 'q' || key == 'Q')
                 {
                     render.Renderer(agentBoard, "Thanks for playing!");
                     Environment.Exit(0);
                 }
+                // Case the char is a digit, convert and apply the vectors
                 if (char.IsDigit(key))
                 {
                     index = int.Parse(key.ToString());
@@ -170,59 +197,68 @@ namespace TrabalhoPratico2
             } while (true);
         }
 
-        protected Position AutomaticBehaviour(FoundAgentDetails enemyAgent, bool attract)
+        protected Position AutomaticBehaviour
+            (FoundAgentDetails enemyAgent, bool follow)
         {
+            // Local variables
             Position chosenPosition;
             List<Position> toMove = new List<Position>();
 
-            if (enemyAgent.AgentReference.X == this.currentPosition.X)
+            // The follow param will determine if the selected agent will
+            // go after or run away from the enemy
+
+            // Enemy in the same column
+            if (enemyAgent.AgentReference.X == currentPosition.X)
             {
-                if (enemyAgent.AgentReference.Y > this.currentPosition.Y)
+                if (enemyAgent.AgentReference.Y > currentPosition.Y)
                 {
-                    toMove = attract ? vectorBottom : vectorTop;
+                    toMove = follow ? vectorBottom : vectorTop;
                 }
                 else
                 {
-                    toMove = attract ? vectorTop : vectorBottom;
+                    toMove = follow ? vectorTop : vectorBottom;
                 }
             }
-            else if (enemyAgent.AgentReference.Y == this.currentPosition.Y)
+            // Enemy in the same row
+            else if (enemyAgent.AgentReference.Y == currentPosition.Y)
             {
-                if (enemyAgent.AgentReference.X > this.currentPosition.X)
+                if (enemyAgent.AgentReference.X > currentPosition.X)
                 {
-                    toMove = attract ? vectorRight : vectorLeft;
+                    toMove = follow ? vectorRight : vectorLeft;
                 }
                 else
                 {
-                    toMove = attract ? vectorLeft : vectorRight;
+                    toMove = follow ? vectorLeft : vectorRight;
                 }
             }
-            else  // X and Y are different = diagonal 
+            // X and Y are different = diagonal
+            else
             {
-                if (enemyAgent.AgentReference.Y < this.currentPosition.Y)
+                if (enemyAgent.AgentReference.Y < currentPosition.Y)
                 {
-                    if (enemyAgent.AgentReference.X < this.currentPosition.X)
-                        toMove = attract ?
+                    if (enemyAgent.AgentReference.X < currentPosition.X)
+                        toMove = follow ?
                         vectorTopLeft : vectorBottomRight;
                     else
-                        toMove = attract ?
+                        toMove = follow ?
                         vectorTopRight : vectorBottomLeft;
                 }
                 else
                 {
-                    if (enemyAgent.AgentReference.X < this.currentPosition.X)
-                        toMove = attract ?
+                    if (enemyAgent.AgentReference.X < currentPosition.X)
+                        toMove = follow ?
                         vectorBottomLeft : vectorTopRight;
                     else
-                        toMove = attract ?
+                        toMove = follow ?
                         vectorBottomRight : vectorTopLeft;
                 }
             }
 
+            // Determine the final choice of movement
             chosenPosition =
                 ApplyVector(toMove[chosenMove.Next(0, toMove.Count)]);
-            return chosenPosition;
 
+            return chosenPosition;
         }
     }
 }
