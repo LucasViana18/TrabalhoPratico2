@@ -54,9 +54,9 @@ namespace TrabalhoPratico2
                     switch (args[i])
                     {
                         case "-x":
-                            if (int.TryParse(args[i + 1], out int MaxX))
+                            if (int.TryParse(args[i + 1], out int x))
                             {
-                                MaxX = int.Parse(args[i + 1]);
+                                MaxX = x;
                             }
                             else
                             {
@@ -66,9 +66,9 @@ namespace TrabalhoPratico2
                             }
                             break;
                         case "-y":
-                            if (int.TryParse(args[i + 1], out int MaxY))
+                            if (int.TryParse(args[i + 1], out int y))
                             {
-                                MaxY = int.Parse(args[i + 1]);
+                                MaxY = y;
                             }
                             else
                             {
@@ -78,9 +78,9 @@ namespace TrabalhoPratico2
                             }
                             break;
                         case "-z":
-                            if (int.TryParse(args[i + 1], out int BotZ))
+                            if (int.TryParse(args[i + 1], out int z))
                             {
-                                BotZ = int.Parse(args[i + 1]);
+                                BotZ = z;
                             }
                             else
                             {
@@ -90,9 +90,9 @@ namespace TrabalhoPratico2
                             }
                             break;
                         case "-h":
-                            if (int.TryParse(args[i + 1], out int BotH))
+                            if (int.TryParse(args[i + 1], out int h))
                             {
-                                BotH = int.Parse(args[i + 1]);
+                                BotH = h;
                             }
                             else
                             {
@@ -102,9 +102,9 @@ namespace TrabalhoPratico2
                             }
                             break;
                         case "-Z":
-                            if (int.TryParse(args[i + 1], out int UserZ))
+                            if (int.TryParse(args[i + 1], out int Z))
                             {
-                                UserZ = int.Parse(args[i + 1]);
+                                UserZ = Z;
                             }
                             else
                             {
@@ -114,9 +114,9 @@ namespace TrabalhoPratico2
                             }
                             break;
                         case "-H":
-                            if (int.TryParse(args[i + 1], out int UserH))
+                            if (int.TryParse(args[i + 1], out int H))
                             {
-                                UserH = int.Parse(args[i + 1]);
+                                UserH = H;
                             }
                             else
                             {
@@ -126,9 +126,9 @@ namespace TrabalhoPratico2
                             }
                             break;
                         case "-t":
-                            if (int.TryParse(args[i + 1], out int MaxTurns))
+                            if (int.TryParse(args[i + 1], out int t))
                             {
-                                MaxTurns = int.Parse(args[i + 1]);
+                                MaxTurns = t;
                             }
                             else
                             {
@@ -147,6 +147,8 @@ namespace TrabalhoPratico2
                 BotZ == default(int) || BotH == default(int) ||
                 MaxTurns == default(int))
             {
+                Console.WriteLine($"X:{MaxX}, Y:{MaxY}\nz:{BotZ}, h:{BotH}" +
+                    $"\nt:{MaxTurns}");
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Parameters given were incomplete, " +
                     "shutting down.");
