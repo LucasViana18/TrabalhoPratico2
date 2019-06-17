@@ -5,9 +5,20 @@ using System.Linq;
 
 namespace TrabalhoPratico2
 {
+    /// <summary>
+    /// Have every action related to a human agent
+    /// </summary>
     class Human : Agent
     {
         // Constructor
+        /// <summary>
+        /// Human constructor
+        /// </summary>
+        /// <param name="startX">Start position x</param>
+        /// <param name="startY">Start position y</param>
+        /// <param name="board">Board instance at Game class</param>
+        /// <param name="agentID">Hexadecimal ID</param>
+        /// <param name="control">Automatic or manual</param>
         public Human
             (int startX, int startY, Board board, string agentID, 
             ControlType control) :
@@ -18,7 +29,12 @@ namespace TrabalhoPratico2
         }
 
         // Methods
-
+        /// <summary>
+        /// Move human to selected position
+        /// </summary>
+        /// <param name="zombie">Nearest agent</param>
+        /// <param name="render">Render instance at Game class</param>
+        /// <param name="game">To be passed at ManualBehavior</param>
         public override void Move
             (FoundAgentDetails zombie, Render render, Game game)
         {
@@ -46,7 +62,10 @@ namespace TrabalhoPratico2
                 }
             }
         }
-
+        /// <summary>
+        /// Get symbol
+        /// </summary>
+        /// <returns>Symbol</returns>
         public override string GetSymbol()
         {
             return Control == ControlType.Automatic ? "h" + AgentID :

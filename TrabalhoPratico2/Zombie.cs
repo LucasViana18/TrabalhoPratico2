@@ -4,9 +4,20 @@ using System.Text;
 
 namespace TrabalhoPratico2
 {
+    /// <summary>
+    /// Have every action related to a zombie agent
+    /// </summary>
     public class Zombie : Agent
     {
         // Constructor
+        /// <summary>
+        /// Zombie constructor
+        /// </summary>
+        /// <param name="startX">Start position x</param>
+        /// <param name="startY">Start position y</param>
+        /// <param name="board">Board instance at Game class</param>
+        /// <param name="agentID">Hexadecimal ID</param>
+        /// <param name="control">Automatic or manual</param>
         public Zombie
             (int startX, int startY, Board board, string agentID, 
             ControlType control) :
@@ -17,7 +28,11 @@ namespace TrabalhoPratico2
         }
 
         // Methods
-
+        /// <summary>
+        /// Detect human in the Moore neighborhood
+        /// </summary>
+        /// <param name="human">Human agent to be checked</param>
+        /// <returns>If there is a human in the Moore neighborhood</returns>
         public bool HumanNear(FoundAgentDetails human)
         {
             // Detects if there is a human near in a radius of 1
@@ -30,7 +45,12 @@ namespace TrabalhoPratico2
 
             return (toCompare == 1);
         }
-
+        /// <summary>
+        /// Move zombie to selected position
+        /// </summary>
+        /// <param name="zombie">Nearest agent</param>
+        /// <param name="render">Render instance at Game class</param>
+        /// <param name="game">To be passed at ManualBehavior</param>
         public override void Move
             (FoundAgentDetails human, Render render, Game game)
         {
@@ -82,7 +102,10 @@ namespace TrabalhoPratico2
                 }
             }
         }
-
+        /// <summary>
+        /// Get symbol
+        /// </summary>
+        /// <returns>Symbol</returns>
         public override string GetSymbol()
         {
             return Control == ControlType.Automatic ? "z" + AgentID :
