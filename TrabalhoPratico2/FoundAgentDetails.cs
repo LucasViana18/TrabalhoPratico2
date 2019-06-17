@@ -4,6 +4,9 @@ using System.Text;
 
 namespace TrabalhoPratico2
 {
+    /// <summary>
+    /// Share agent details
+    /// </summary>
     public class FoundAgentDetails
     {
         // Instance properties
@@ -12,6 +15,13 @@ namespace TrabalhoPratico2
         public Position AgentReference { get; set; }
 
         // Constructor
+        /// <summary>
+        /// FoundAgentDetails constructor
+        /// </summary>
+        /// <param name="found">If agent was found</param>
+        /// <param name="coord">Agent position at currentBoard</param>
+        /// <param name="reference">Possible positions at Moore 
+        /// neighborhood with Toroidal effect applied</param>
         public FoundAgentDetails
             (bool found, Position coord, Position reference)
         {
