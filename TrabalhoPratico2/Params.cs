@@ -139,13 +139,14 @@ namespace TrabalhoPratico2
 
             if (MaxX == default(int) || MaxY == default(int) ||
                 BotZ == default(int) || BotH == default(int) ||
-                MaxTurns == default(int))
+                MaxTurns == default(int) || MaxX < 0 || MaxY < 0 ||
+                MaxTurns < 0 || BotH < 0 || BotZ < 0 || UserH < 0 || UserZ < 0)
             {
                 Console.WriteLine($"X:{MaxX}, Y:{MaxY}\nz:{BotZ}, h:{BotH}" +
                     $"\nt:{MaxTurns}");
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Parameters given were incomplete, " +
-                    "shutting down.");
+                Console.WriteLine("Parameters given were invalid or" +
+                    " incomplete, shutting down.");
                 Console.ForegroundColor = ConsoleColor.White;
                 Environment.Exit(1);
             }
@@ -164,12 +165,20 @@ namespace TrabalhoPratico2
                 Environment.Exit(1);
             }
 
-            if(UserH > BotH || UserZ > BotZ || UserH < 0 || UserZ < 0)
+            if(UserH > BotH || UserZ > BotZ)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("The number of humans or zombies" +
                     " controlled by the user exceeds the total number of" +
-                    " humans or zombies selected or is bellow 0.");
+                    " humans or zombies selected");
+                Console.ForegroundColor = ConsoleColor.White;
+                Environment.Exit(1);
+            }
+
+            if (Math.Abs(MaxX) - Math.Abs(MaxY) >= 10)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("");
                 Console.ForegroundColor = ConsoleColor.White;
                 Environment.Exit(1);
             }
