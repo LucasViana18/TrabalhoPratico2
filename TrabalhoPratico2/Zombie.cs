@@ -31,8 +31,10 @@ namespace TrabalhoPratico2
             return (toCompare == 1);
         }
 
-        public override void Move(FoundAgentDetails human, Render render)
+        public override void Move
+            (FoundAgentDetails human, Render render, Game game)
         {
+            ToIgnore = false;
             // Human found
             if (human.Found && agentBoard.GetElementType
                 (human.AgentCoord.X, human.AgentCoord.Y) == Type.Human)  
@@ -43,7 +45,7 @@ namespace TrabalhoPratico2
                     // Check if the control is manual or automatic
                     if (Control == ControlType.Manual)
                     {
-                        LastMovement = ManualBehavior(render);
+                        LastMovement = ManualBehavior(render, game);
                     }
                     else
                     {
@@ -65,15 +67,18 @@ namespace TrabalhoPratico2
                     if (Control == ControlType.Manual)
                     {
                         render.Renderer
-                            (agentBoard, "Press anykey to convert human");
+                            (agentBoard, "Press anykey to convert human",
+                            game);
                         Console.ReadKey();
                     }
                     // Convert the human
+                    agentBoard.ChangeAgentType(human.AgentCoord);
                     render.Renderer(agentBoard, "The zombie " + GetSymbol() +
                         " converted " + agentBoard.GetElementInPosition
-                        (human.AgentCoord.X, human.AgentCoord.Y).GetSymbol() 
-                        + "!");
-                    agentBoard.ChangeAgentType(human.AgentCoord);
+                        (human.AgentCoord.X, human.AgentCoord.Y).GetSymbol()
+                        + "!", game);
+                    ToIgnore = true;
+                    System.Threading.Thread.Sleep(1500);
                 }
             }
         }

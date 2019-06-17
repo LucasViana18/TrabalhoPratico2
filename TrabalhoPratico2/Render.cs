@@ -12,7 +12,7 @@ namespace TrabalhoPratico2
 
         // Methods
 
-        public void Renderer(Board board, string msg)
+        public void Renderer(Board board, string msg, Game game)
         {
             if (msg != "")
                 this.message = msg;
@@ -49,6 +49,8 @@ namespace TrabalhoPratico2
             Console.ForegroundColor = ConsoleColor.White;
 
             Console.WriteLine("\n_______________");
+            Console.WriteLine();
+            Console.WriteLine("Turn: " + game.CurrentTurn);
             Console.WriteLine();
             Console.WriteLine(message);
         }

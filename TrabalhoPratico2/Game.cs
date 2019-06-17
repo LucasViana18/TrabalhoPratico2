@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TrabalhoPratico2
 {
-    class Game
+    public class Game
     {
         // Variables and class instances
         private Params gameParams;
@@ -15,6 +15,8 @@ namespace TrabalhoPratico2
         private readonly int numberAgents;
         private int currentTurn;
         private bool game;
+
+        public int CurrentTurn { get { return currentTurn; } }
 
         // Constructor
         public Game(Params par)
@@ -44,8 +46,7 @@ namespace TrabalhoPratico2
             {
                 if (!game) return;
                 // Identify the number of turns
-                render.Renderer(board, $"Turn: {currentTurn}. " +
-                    $"Press Enter to continue.");
+                render.Renderer(board, $"Press Enter to continue.", this);
                 Console.ReadLine();
                 // Shuffle the list of agents every turn
                 board.Shuffle();
@@ -67,7 +68,7 @@ namespace TrabalhoPratico2
                     board.Playing = agentToMove.AgentPosition;
 
                     render.Renderer(board, $"Will be moved: " +
-                        $"{agentToMove.GetSymbol()}");
+                        $"{agentToMove.GetSymbol()}", this);
                     System.Threading.Thread.Sleep(1500);
 
                     // (Temporary) Case picked agent is human
@@ -83,19 +84,22 @@ namespace TrabalhoPratico2
                             render.Renderer(board, "Closest Enemy found: " +
                                 board.GetElementInPosition
                                 (target.AgentCoord.X, target.AgentCoord.Y).
-                                GetSymbol());
+                                GetSymbol(), this);
                             System.Threading.Thread.Sleep(1500);
                             // Move the picked agent
-                            agentToMove.Move(target, render);
+                            agentToMove.Move(target, render, this);
                             board.AgentMoved(a);
                         }
 
                         // Post action
-                        render.Renderer(board, $"Agent " +
-                            $"{agentToMove.GetSymbol()} " +
-                            $"moved to: {agentToMove.LastMovement.X}, " +
-                            $"{agentToMove.LastMovement.Y}\n");
-                        System.Threading.Thread.Sleep(1500);
+                        if (!agentToMove.ToIgnore) // If it didn't convert
+                        {
+                            render.Renderer(board, $"Agent " +
+                                $"{agentToMove.GetSymbol()} " +
+                                $"moved to: {agentToMove.LastMovement.X}, " +
+                                $"{agentToMove.LastMovement.Y}\n", this);
+                            System.Threading.Thread.Sleep(1500);
+                        }
                     }
                 }
                 // Humans win

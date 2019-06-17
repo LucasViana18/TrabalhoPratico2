@@ -28,6 +28,7 @@ namespace TrabalhoPratico2
         public Position AgentPosition { get { return currentPosition; } }
         public Position LastMovement { get; protected set; }
         public ControlType Control { get; set; }
+        public bool ToIgnore { get; protected set; } = false;
 
         // Constructor
         public Agent
@@ -109,7 +110,8 @@ namespace TrabalhoPratico2
             vectorTopRight.Add(new Position(0, -1));
         }
 
-        public virtual void Move(FoundAgentDetails agent, Render render) { }
+        public virtual void Move
+            (FoundAgentDetails agent, Render render, Game game) { }
 
         // Apply a vector of direction to move the Agent and consider the
         // Toroidal process.
@@ -165,7 +167,7 @@ namespace TrabalhoPratico2
             return toReturn;
         }
 
-        public Position ManualBehavior(Render render)
+        public Position ManualBehavior(Render render, Game game)
         {
             // Local variables
             int index;
@@ -173,7 +175,7 @@ namespace TrabalhoPratico2
 
             // Show message for input
             render.Renderer(agentBoard, $"Please enter a move direction for "+
-                $"{GetSymbol()} at numberpad: ");
+                $"{GetSymbol()} at numberpad: ", game);
 
             do
             {
@@ -182,7 +184,7 @@ namespace TrabalhoPratico2
                 // Quit the game
                 if (key == 'q' || key == 'Q')
                 {
-                    render.Renderer(agentBoard, "Thanks for playing!");
+                    render.Renderer(agentBoard, "Thanks for playing!", game);
                     Environment.Exit(0);
                 }
                 // Case the char is a digit, convert and apply the vectors
