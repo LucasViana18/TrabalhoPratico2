@@ -8,7 +8,6 @@ namespace TrabalhoPratico2
     public class Agent : GameElement
     {
         // Instance variables and properties
-        protected Params agentPar;
         protected Board agentBoard;
         protected Type target;
         protected Random chosenMove;
@@ -32,7 +31,7 @@ namespace TrabalhoPratico2
 
         // Constructor
         public Agent
-            (int startX, int startY, Params par, Board board, string agentID,
+            (int startX, int startY, Board board, string agentID,
             ControlType control) :
             base(startX, startY)
         {
@@ -51,7 +50,6 @@ namespace TrabalhoPratico2
             LastMovement = new Position(-1, -1);
             target = Type.Empty;
 
-            agentPar = par;
             agentBoard = board;
             AgentID = agentID;
             Control = control;

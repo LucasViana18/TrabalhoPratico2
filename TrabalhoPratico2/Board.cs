@@ -129,7 +129,7 @@ namespace TrabalhoPratico2
                 localPosition = FindFreeSpot();
                 // Create/Instantiate a zombie
                 localZombie = new Zombie(localPosition.X, localPosition.Y,
-                    boardParams, this, NewAgentId(), control);
+                    this, NewAgentId(), control);
                 agents.Add(localZombie);
                 currentBoard[localPosition.X, localPosition.Y] = localZombie;
             }
@@ -153,7 +153,7 @@ namespace TrabalhoPratico2
                 localPosition = FindFreeSpot();
                 // Create/Instantiate a human
                 localHuman = new Human(localPosition.X, localPosition.Y,
-                    boardParams, this, NewAgentId(), control);
+                    this, NewAgentId(), control);
                 agents.Add(localHuman);
                 currentBoard[localPosition.X, localPosition.Y] = localHuman;
             }
@@ -223,7 +223,7 @@ namespace TrabalhoPratico2
             whatAgent = GetElementInPosition(posAgent.X, posAgent.Y) as Agent;
 
             localAgent = new Zombie(whatAgent.AgentPosition.X, 
-                whatAgent.AgentPosition.Y, boardParams, this, 
+                whatAgent.AgentPosition.Y, this, 
                 whatAgent.AgentID, ControlType.Automatic);
 
             // Remove the last agent(human) and adds a new agent(zombie) but

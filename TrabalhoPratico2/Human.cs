@@ -9,9 +9,9 @@ namespace TrabalhoPratico2
     {
         // Constructor
         public Human
-            (int startX, int startY, Params par, Board board, string agentID, 
+            (int startX, int startY, Board board, string agentID, 
             ControlType control) :
-            base(startX, startY, par, board, agentID, control)
+            base(startX, startY, board, agentID, control)
         {
             elementType = Type.Human;
             target = Type.Zombie;
