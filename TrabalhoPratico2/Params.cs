@@ -28,13 +28,13 @@ namespace TrabalhoPratico2
         public void ParseArgs(string[] args)
         {
 
-            if (true) // Debug
+            if (false) // Debug
             {
                 MaxX = 8;
                 MaxY = 8;
                 BotZ = 3;
                 BotH = 3;
-                UserZ = 1;
+                UserZ = -1;
                 UserH = 1;
                 MaxTurns = 10;
             }
@@ -164,12 +164,12 @@ namespace TrabalhoPratico2
                 Environment.Exit(1);
             }
 
-            if(UserH > BotH || UserZ > BotZ)
+            if(UserH > BotH || UserZ > BotZ || UserH < 0 || UserZ < 0)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("The number of humans or zombies" +
                     " controlled by the user exceeds the total number of" +
-                    " humans or zombies selected.");
+                    " humans or zombies selected or is bellow 0.");
                 Console.ForegroundColor = ConsoleColor.White;
                 Environment.Exit(1);
             }
