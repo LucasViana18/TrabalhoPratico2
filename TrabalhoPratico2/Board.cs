@@ -4,6 +4,9 @@ using System.Text;
 
 namespace TrabalhoPratico2
 {
+    /// <summary>
+    /// Class that update and storage every change made in the game
+    /// </summary>
     public class Board
     {
         // Instance variables and properties
@@ -19,6 +22,10 @@ namespace TrabalhoPratico2
         public Position Enemy { get; set; }
 
         // Constructor
+        /// <summary>
+        /// Board constructor
+        /// </summary>
+        /// <param name="p">Params variable</param>
         public Board(Params p)
         {
             rnd = new Random();
@@ -33,7 +40,9 @@ namespace TrabalhoPratico2
         }
 
         // Methods
-
+        /// <summary>
+        /// Initialize board
+        /// </summary>
         public void StartBoard()
         {
             // Fill the board with GameElement instances on game start
@@ -51,7 +60,9 @@ namespace TrabalhoPratico2
             CreateZombies(ControlType.Manual);
             CreateHumans(ControlType.Manual);
         }
-
+        /// <summary>
+        /// Shufle agent list
+        /// </summary>
         public void Shuffle()
         {
             // Local variables
@@ -70,13 +81,20 @@ namespace TrabalhoPratico2
             // Clear the moved agents list
             movedAgents.Clear();
         }
-
+        /// <summary>
+        /// Add to a list agents that have already been moved
+        /// </summary>
+        /// <param name="whatIndex">Agent that has moved</param>
         public void AgentMoved(int whatIndex)
         {
             // Add moved agents to the list
             movedAgents.Add(whatIndex);
         }
-
+        /// <summary>
+        /// Identifies if agent moved
+        /// </summary>
+        /// <param name="whatAgent">Agent to be checked</param>
+        /// <returns>If whatAgent moved</returns>
         public bool WasMoved(GameElement whatAgent)
         {
             // Local variables
@@ -95,7 +113,10 @@ namespace TrabalhoPratico2
             // the certain index
             return movedAgents.Exists(item => item == indexAgent);
         }
-
+        /// <summary>
+        /// Find free position at currentBoard
+        /// </summary>
+        /// <returns>Free position</returns>
         private Position FindFreeSpot()
         {
             // Local variables
@@ -111,7 +132,10 @@ namespace TrabalhoPratico2
 
             return new Position(localCol, localRow);
         }
-
+        /// <summary>
+        /// Create zombie and add it to agents list
+        /// </summary>
+        /// <param name="control">Controlled by player or AI</param>
         private void CreateZombies(ControlType control)
         {
             // Local variables
@@ -135,7 +159,10 @@ namespace TrabalhoPratico2
             }
 
         }
-
+        /// <summary>
+        /// Create human and add it to agents list
+        /// </summary>
+        /// <param name="control">Controlled by player or AI</param>
         private void CreateHumans(ControlType control)
         {
             // Local variables
@@ -159,17 +186,32 @@ namespace TrabalhoPratico2
             }
 
         }
-
+        /// <summary>
+        /// Get element at passed position
+        /// </summary>
+        /// <param name="col">Position x</param>
+        /// <param name="row">Postion y</param>
+        /// <returns>Element at currentBoard</returns>
         public GameElement GetElementInPosition(int col, int row)
         {
             return currentBoard[col, row];
         }
-
+        /// <summary>
+        /// Get element Type at passed position
+        /// </summary>
+        /// <param name="col">Position x</param>
+        /// <param name="row">Position y</param>
+        /// <returns>Type at currentBoard</returns>
         public Type GetElementType(int col, int row)
         {
             return currentBoard[col, row].ElementType;
         }
-
+        /// <summary>
+        /// Convert board condinates to apply Toroidal effect
+        /// </summary>
+        /// <param name="col">Position x</param>
+        /// <param name="row">Position y</param>
+        /// <returns>Position with Toroidal effect applied</returns>
         public Position ToroidalConvert(int col, int row)
         {
             // Local variable
@@ -188,7 +230,11 @@ namespace TrabalhoPratico2
 
             return toReturn;
         }
-
+        /// <summary>
+        /// Get agent at agents list
+        /// </summary>
+        /// <param name="index">List index</param>
+        /// <returns>Selected agent</returns>
         public Agent GetAgent(int index)
         {
             // Safety measure
@@ -201,7 +247,11 @@ namespace TrabalhoPratico2
                 return agents[index];
             }
         }
-
+        /// <summary>
+        /// Move agent at currentBoard
+        /// </summary>
+        /// <param name="whatAgent">Agent to be moved</param>
+        /// <param name="newPosition">Position to be moved to</param>
         public void MoveAgent(Agent whatAgent, Position newPosition)
         {
             // Local variable
@@ -213,7 +263,10 @@ namespace TrabalhoPratico2
                 new GameElement(currentAgentPos.X, currentAgentPos.Y);
             currentBoard[newPosition.X, newPosition.Y] = whatAgent;
         }
-
+        /// <summary>
+        /// Convert human agent to zombie
+        /// </summary>
+        /// <param name="posAgent">Position of converted agent</param>
         public void ChangeAgentType(Position posAgent)
         {
             // Local variable
@@ -234,7 +287,10 @@ namespace TrabalhoPratico2
                 [localAgent.AgentPosition.X, localAgent.AgentPosition.Y] 
                 = localAgent;
         }
-
+        /// <summary>
+        /// Generates new hexadecimal ID
+        /// </summary>
+        /// <returns>Hexadecimal ID</returns>
         public string NewAgentId()
         {
             // Local variable
@@ -251,7 +307,10 @@ namespace TrabalhoPratico2
 
             return idHex;
         }
-
+        /// <summary>
+        /// Check for win condition
+        /// </summary>
+        /// <returns>If game is over</returns>
         public bool WinChecker()
         {
             foreach(Agent agent in agents)
