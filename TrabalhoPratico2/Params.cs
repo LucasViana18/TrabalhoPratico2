@@ -192,8 +192,8 @@ namespace TrabalhoPratico2
                 Environment.Exit(1);
             }
 
-            if (Math.Abs(MaxX) - Math.Abs(MaxY) > 10 || 
-                Math.Abs(MaxY) - Math.Abs(MaxX) > 10)
+            if (Math.Abs(MaxX - MaxY) >= 10 || 
+                Math.Abs(MaxY - MaxX) >= 10)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("X and Y are too far apart, please" +
