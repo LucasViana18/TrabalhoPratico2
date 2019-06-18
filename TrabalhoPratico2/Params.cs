@@ -17,6 +17,39 @@ namespace TrabalhoPratico2
 
         // Methods
 
+        private void CheckArgs(string[] args)
+        {
+            List<string> argsPassed = new List<string>();
+
+            foreach (string s in args)
+            {
+                if (s == "-x" || s == "-y" || s == "-h" || s == "-z"
+                    || s == "-H" || s == "-Z" || s == "-t")
+                {
+                    argsPassed.Add(s);
+                }
+            }
+
+            if (argsPassed.Contains("-x") && argsPassed.Contains("-y") &&
+                argsPassed.Contains("-h") && argsPassed.Contains("-z") && 
+                argsPassed.Contains("-Z") && argsPassed.Contains("-H") && 
+                argsPassed.Contains("-t"))
+            {
+                return;
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Parameters given were invalid or" +
+                    " incomplete, please give the program all parameters." +
+                    " correctly\nExamples:\n1) dotnet run -- -x 20 -y 20 " +
+                    "-z 10 -h 30 -Z 1 -H 2 -t 1000\n2) dotnet run -- -x 20 " +
+                    "-y 20 -z 10 -h 30 -Z 0 -H 0 -t 1000\nShutting Down.");
+                Console.ForegroundColor = ConsoleColor.White;
+                Environment.Exit(1);
+            }
+        }
+
         // ParseArgs method takes the array of strings args, which is passed to
         // the Main() from the command line.It's strings are analyzed through
         // for cycle, which uses a switch(case) to verify if any of them are
@@ -27,6 +60,7 @@ namespace TrabalhoPratico2
         // values taken from the args array.
         public void ParseArgs(string[] args)
         {
+            CheckArgs(args);
 
             if (false) // Debug
             {
@@ -136,17 +170,13 @@ namespace TrabalhoPratico2
             }
 
             // Rules limited conditions
-
-            if (MaxX == default(int) || MaxY == default(int) ||
-                BotZ == default(int) || BotH == default(int) ||
-                MaxTurns == default(int) || MaxX < 0 || MaxY < 0 ||
-                MaxTurns < 0 || BotH < 0 || BotZ < 0 || UserH < 0 || UserZ < 0)
+            
+            if (MaxX <= 0 || MaxY <= 0 || BotZ <= 0 || BotH <= 0 ||
+                MaxTurns <= 0)
             {
-                Console.WriteLine($"X:{MaxX}, Y:{MaxY}\nz:{BotZ}, h:{BotH}" +
-                    $"\nt:{MaxTurns}");
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Parameters given were invalid or" +
-                    " incomplete, shutting down.");
+                Console.WriteLine("x, y, z, h and t cannot be lesser than or" +
+                    "equal to 0.");
                 Console.ForegroundColor = ConsoleColor.White;
                 Environment.Exit(1);
             }
@@ -175,13 +205,15 @@ namespace TrabalhoPratico2
                 Environment.Exit(1);
             }
 
-            if (Math.Abs(MaxX) - Math.Abs(MaxY) >= 10)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("");
-                Console.ForegroundColor = ConsoleColor.White;
-                Environment.Exit(1);
-            }
+            // if (Math.Abs(MaxX) - Math.Abs(MaxY) > 10 || 
+            //     Math.Abs(MaxY) - Math.Abs(MaxX) > 10)
+            // {
+            //     Console.ForegroundColor = ConsoleColor.Red;
+            //     Console.WriteLine("X and Y are too far apart, please" +
+            //         " maintain them with a value of 10 of eachother.");
+            //     Console.ForegroundColor = ConsoleColor.White;
+            //     Environment.Exit(1);
+            // }
         }
     }
 }
