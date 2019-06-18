@@ -4,7 +4,7 @@
 
 **Projeto realizado por:**
 - [Guilhereme Saturno, a21700118]()
-- [Lucas Viana, ]()
+- [Lucas Viana, a21805095]()
 - [Pedro Inácio, a21802050]()
 
 ## Indicação do trabalho realizado pelos membros do grupo:
@@ -20,7 +20,7 @@
   - Documentação XML do programa;
   - Fluxograma, com Lucas Viana e Pedro Inácio.
 
-- Lucas viana:
+- Lucas Viana:
   - Criação e definição da lógica básica das classes `Board`, `Character` e 
   `Position`, com Pedro Inácio;
   - Criação e desenvolvimento das classes `GameElement`, `FoundAgentDetails`, 
