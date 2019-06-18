@@ -158,11 +158,11 @@ namespace TrabalhoPratico2
             // Rules limited conditions
             
             if (MaxX <= 0 || MaxY <= 0 || BotZ <= 0 || BotH <= 0 ||
-                MaxTurns <= 0)
+                MaxTurns <= 0 || UserZ < 0 || UserH < 0)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("x, y, z, h and t cannot be lesser than or" +
-                    "equal to 0.");
+                    " equal to 0 and Z and H cannot be lesser than 0.");
                 Console.ForegroundColor = ConsoleColor.White;
                 Environment.Exit(1);
             }
