@@ -60,6 +60,7 @@ namespace TrabalhoPratico2
         // values taken from the args array.
         public void ParseArgs(string[] args)
         {
+            CheckArgs(args);
             for (int i = 0; i < args.Length; i++)
             {
 
@@ -190,15 +191,15 @@ namespace TrabalhoPratico2
                 Environment.Exit(1);
             }
 
-            // if (Math.Abs(MaxX) - Math.Abs(MaxY) > 10 || 
-            //     Math.Abs(MaxY) - Math.Abs(MaxX) > 10)
-            // {
-            //     Console.ForegroundColor = ConsoleColor.Red;
-            //     Console.WriteLine("X and Y are too far apart, please" +
-            //         " maintain them with a value of 10 of eachother.");
-            //     Console.ForegroundColor = ConsoleColor.White;
-            //     Environment.Exit(1);
-            // }
+            if (Math.Abs(MaxX) - Math.Abs(MaxY) > 10 || 
+                Math.Abs(MaxY) - Math.Abs(MaxX) > 10)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("X and Y are too far apart, please" +
+                    " maintain them with a value of 10 of eachother.");
+                Console.ForegroundColor = ConsoleColor.White;
+                Environment.Exit(1);
+            }
         }
     }
 }
