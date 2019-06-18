@@ -4,6 +4,9 @@ using System.Text;
 
 namespace TrabalhoPratico2
 {
+    /// <summary>
+    /// Display a visual representation of the current state of the game
+    /// </summary>
     public class Render
     {
         // Instance variables
@@ -11,16 +14,21 @@ namespace TrabalhoPratico2
         private GameElement item;
 
         // Methods
-
+        /// <summary>
+        /// Display board and game information
+        /// </summary>
+        /// <param name="board">Board instance at Game class</param>
+        /// <param name="msg">Message passed at Renderer method</param>
+        /// <param name="game">Used to display turn at Renderer method</param>
         public void Renderer(Board board, string msg, Game game)
         {
             if (msg != "")
-                this.message = msg;
+                message = msg;
 
             Console.Clear();
             Console.OutputEncoding = Encoding.UTF8;
             Console.WriteLine("     Zombie Game!      \n");
-            
+
             //Check and update which row is being draw
             for (int r = 0; r < board.NumberRows; r++)
             {

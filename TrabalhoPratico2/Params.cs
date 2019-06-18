@@ -60,112 +60,97 @@ namespace TrabalhoPratico2
         // values taken from the args array.
         public void ParseArgs(string[] args)
         {
-            CheckArgs(args);
+            for (int i = 0; i < args.Length; i++)
+            {
 
-            if (false) // Debug
-            {
-                MaxX = 8;
-                MaxY = 8;
-                BotZ = 3;
-                BotH = 3;
-                UserZ = -1;
-                UserH = 1;
-                MaxTurns = 10;
-            }
-            else
-            {
-                for (int i = 0; i < args.Length; i++)
+                switch (args[i])
                 {
-
-                    switch (args[i])
-                    {
-                        case "-x":
-                            if (int.TryParse(args[i + 1], out int x))
-                            {
-                                MaxX = x;
-                            }
-                            else
-                            {
-                                Console.WriteLine("x couldn't be converted." +
-                                    "\nShutting down game.");
-                                Environment.Exit(0);
-                            }
-                            break;
-                        case "-y":
-                            if (int.TryParse(args[i + 1], out int y))
-                            {
-                                MaxY = y;
-                            }
-                            else
-                            {
-                                Console.WriteLine("y couldn't be converted." +
-                                    "\nShutting down game.");
-                                Environment.Exit(0);
-                            }
-                            break;
-                        case "-z":
-                            if (int.TryParse(args[i + 1], out int z))
-                            {
-                                BotZ = z;
-                            }
-                            else
-                            {
-                                Console.WriteLine("z couldn't be converted." +
-                                    "\nShutting down game.");
-                                Environment.Exit(0);
-                            }
-                            break;
-                        case "-h":
-                            if (int.TryParse(args[i + 1], out int h))
-                            {
-                                BotH = h;
-                            }
-                            else
-                            {
-                                Console.WriteLine("h couldn't be converted." +
-                                    "\nShutting down game.");
-                                Environment.Exit(0);
-                            }
-                            break;
-                        case "-Z":
-                            if (int.TryParse(args[i + 1], out int Z))
-                            {
-                                UserZ = Z;
-                            }
-                            else
-                            {
-                                Console.WriteLine("Z couldn't be converted." +
-                                    "\nShutting down game.");
-                                Environment.Exit(0);
-                            }
-                            break;
-                        case "-H":
-                            if (int.TryParse(args[i + 1], out int H))
-                            {
-                                UserH = H;
-                            }
-                            else
-                            {
-                                Console.WriteLine("H couldn't be converted." +
-                                    "\nShutting down game.");
-                                Environment.Exit(0);
-                            }
-                            break;
-                        case "-t":
-                            if (int.TryParse(args[i + 1], out int t))
-                            {
-                                MaxTurns = t;
-                            }
-                            else
-                            {
-                                Console.WriteLine("t couldn't be converted." +
-                                    "\nShutting down game.");
-                                Environment.Exit(0);
-                            }
-                            break;
-                        default:
-                            break;
-                    }
+                    case "-x":
+                        if (int.TryParse(args[i + 1], out int x))
+                        {
+                            MaxX = x;
+                        }
+                        else
+                        {
+                            Console.WriteLine("x couldn't be converted." +
+                                "\nShutting down game.");
+                            Environment.Exit(0);
+                        }
+                        break;
+                    case "-y":
+                        if (int.TryParse(args[i + 1], out int y))
+                        {
+                            MaxY = y;
+                        }
+                        else
+                        {
+                            Console.WriteLine("y couldn't be converted." +
+                                "\nShutting down game.");
+                            Environment.Exit(0);
+                        }
+                        break;
+                    case "-z":
+                        if (int.TryParse(args[i + 1], out int z))
+                        {
+                            BotZ = z;
+                        }
+                        else
+                        {
+                            Console.WriteLine("z couldn't be converted." +
+                                "\nShutting down game.");
+                            Environment.Exit(0);
+                        }
+                        break;
+                    case "-h":
+                        if (int.TryParse(args[i + 1], out int h))
+                        {
+                            BotH = h;
+                        }
+                        else
+                        {
+                            Console.WriteLine("h couldn't be converted." +
+                                "\nShutting down game.");
+                            Environment.Exit(0);
+                        }
+                        break;
+                    case "-Z":
+                        if (int.TryParse(args[i + 1], out int Z))
+                        {
+                            UserZ = Z;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Z couldn't be converted." +
+                                "\nShutting down game.");
+                            Environment.Exit(0);
+                        }
+                        break;
+                    case "-H":
+                        if (int.TryParse(args[i + 1], out int H))
+                        {
+                            UserH = H;
+                        }
+                        else
+                        {
+                            Console.WriteLine("H couldn't be converted." +
+                                "\nShutting down game.");
+                            Environment.Exit(0);
+                        }
+                        break;
+                    case "-t":
+                        if (int.TryParse(args[i + 1], out int t))
+                        {
+                            MaxTurns = t;
+                        }
+                        else
+                        {
+                            Console.WriteLine("t couldn't be converted." +
+                                "\nShutting down game.");
+                            Environment.Exit(0);
+                        }
+                        break;
+                    default:
+                        break;
                 }
             }
 

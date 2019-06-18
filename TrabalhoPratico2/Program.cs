@@ -2,8 +2,15 @@
 
 namespace TrabalhoPratico2
 {
+    /// <summary>
+    /// Program class
+    /// </summary>
     class Program
     {
+        /// <summary>
+        /// Initalize program
+        /// </summary>
+        /// <param name="args">Arguments passed by user</param>
         static void Main(string[] args)
         {
             // Local variables

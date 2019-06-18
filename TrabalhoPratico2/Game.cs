@@ -4,6 +4,9 @@ using System.Text;
 
 namespace TrabalhoPratico2
 {
+    /// <summary>
+    /// Run the game loop
+    /// </summary>
     public class Game
     {
         // Variables and class instances
@@ -19,6 +22,10 @@ namespace TrabalhoPratico2
         public int CurrentTurn { get { return currentTurn; } }
 
         // Constructor
+        /// <summary>
+        /// Game constructor
+        /// </summary>
+        /// <param name="par">Params variable</param>
         public Game(Params par)
         {
             board = new Board(par);
@@ -28,8 +35,10 @@ namespace TrabalhoPratico2
         }
 
         // Methods
-
         // Loop
+        /// <summary>
+        /// The game loop
+        /// </summary>
         public void GameLoop()
         {
             // Local variables

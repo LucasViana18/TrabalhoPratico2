@@ -5,6 +5,9 @@ using System.Linq;
 
 namespace TrabalhoPratico2
 {
+    /// <summary>
+    /// Class that contains all agent mechanics and properties
+    /// </summary>
     public class Agent : GameElement
     {
         // Instance variables and properties
@@ -30,6 +33,14 @@ namespace TrabalhoPratico2
         public bool ToIgnore { get; protected set; } = false;
 
         // Constructor
+        /// <summary>
+        /// Agent constructor
+        /// </summary>
+        /// <param name="startX">Position x</param>
+        /// <param name="startY">Position y</param>
+        /// <param name="board">Board instance at Game class</param>
+        /// <param name="agentID">Hexadecimal ID</param>
+        /// <param name="control">Automatic or manual</param>
         public Agent
             (int startX, int startY, Board board, string agentID,
             ControlType control) :
@@ -58,7 +69,9 @@ namespace TrabalhoPratico2
         }
 
         // Methods
-
+        /// <summary>
+        /// Add vectors to each list according to direction
+        /// </summary>
         private void SetVectors()
         {
             // Set VectorBottom
@@ -107,12 +120,23 @@ namespace TrabalhoPratico2
                 vectorTopRight.Add(new Position(1, y));
             vectorTopRight.Add(new Position(0, -1));
         }
-
+        /// <summary>
+        /// Move agent 
+        /// </summary>
+        /// <param name="agent">Nearest human or zombie</param>
+        /// <param name="render">Render instance at Game class</param>
+        /// <param name="game">To be used at Renderer method</param>
         public virtual void Move
             (FoundAgentDetails agent, Render render, Game game) { }
 
-        // Apply a vector of direction to move the Agent and consider the
-        // Toroidal process.
+        // 
+        // 
+        /// <summary>
+        /// Apply a direction vector to move the Agent and consider the
+        /// Toroidal process
+        /// </summary>
+        /// <param name="vector">Vector to be transformed</param>
+        /// <returns>Vector with Toirodal effect aplied</returns>
         protected Position ApplyVector(Position vector)
         {
             int localCol, localRow;
@@ -122,7 +146,10 @@ namespace TrabalhoPratico2
 
             return agentBoard.ToroidalConvert(localCol, localRow);
         }
-
+        /// <summary>
+        /// Find nearest agent by checking surrounding positions
+        /// </summary>
+        /// <returns>FoundAgentDetails nearest agent</returns>
         public FoundAgentDetails FindNearAgent()
         {
             FoundAgentDetails toReturn = new FoundAgentDetails
@@ -164,7 +191,12 @@ namespace TrabalhoPratico2
             // as a flag error
             return toReturn;
         }
-
+        /// <summary>
+        /// Set agent to moving vector manually
+        /// </summary>
+        /// <param name="render">Render instance at Game class</param>
+        /// <param name="game">To be used at Renderer method</param>
+        /// <returns>Chosen vector</returns>
         public Position ManualBehavior(Render render, Game game)
         {
             // Local variables
@@ -196,7 +228,12 @@ namespace TrabalhoPratico2
                 }
             } while (true);
         }
-
+        /// <summary>
+        /// Find agent moving vector autonomously according to it's Type
+        /// </summary>
+        /// <param name="enemyAgent">Nearest agent</param>
+        /// <param name="follow">Will agent follow enemyAgent</param>
+        /// <returns>Selected vector</returns>
         protected Position AutomaticBehaviour
             (FoundAgentDetails enemyAgent, bool follow)
         {
